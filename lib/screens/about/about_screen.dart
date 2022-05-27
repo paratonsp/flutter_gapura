@@ -140,6 +140,11 @@ class _StateAboutScreen extends State<AboutScreen> {
                       children: <Widget>[
                         ElevatedButton(
                           style: TextButton.styleFrom(
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(10), // <-- Radius
+                            ),
                             backgroundColor: primaryColor,
                             padding: EdgeInsets.symmetric(
                               horizontal: defaultPadding * 1.5,
@@ -255,22 +260,22 @@ class _StateAboutScreen extends State<AboutScreen> {
         children: [
           Text(
             "Judul",
-            style: TextStyle(color: bgColor, fontSize: 16),
+            style: TextStyle(color: fontColor, fontSize: 16),
           ),
           SizedBox(height: 10),
           SizedBox(
             width: double.infinity,
             child: TextField(
               controller: titleController,
-              style: TextStyle(color: bgColor),
+              style: TextStyle(color: fontColor),
               decoration: InputDecoration(
-                fillColor: bgColor,
+                fillColor: fontColor,
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: primaryColor),
+                  borderSide: BorderSide(color: fontColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: secondaryColor),
+                  borderSide: BorderSide(color: fontColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -288,22 +293,22 @@ class _StateAboutScreen extends State<AboutScreen> {
         children: [
           Text(
             "Sub Judul",
-            style: TextStyle(color: bgColor, fontSize: 16),
+            style: TextStyle(color: fontColor, fontSize: 16),
           ),
           SizedBox(height: 10),
           SizedBox(
             width: double.infinity,
             child: TextField(
               controller: subtitleController,
-              style: TextStyle(color: bgColor),
+              style: TextStyle(color: fontColor),
               decoration: InputDecoration(
-                fillColor: bgColor,
+                fillColor: fontColor,
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: primaryColor),
+                  borderSide: BorderSide(color: fontColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: secondaryColor),
+                  borderSide: BorderSide(color: fontColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),

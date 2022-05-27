@@ -1,21 +1,13 @@
-// ignore_for_file: unused_import, must_be_immutable, avoid_web_libraries_in_flutter, non_constant_identifier_names
+// ignore_for_file: avoid_web_libraries_in_flutter, must_be_immutable, non_constant_identifier_names
 
 import 'dart:convert';
 import 'dart:html';
 
-import 'package:cross_file_image/cross_file_image.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gapura/constants.dart';
-import 'package:gapura/controllers/categories_controller.dart';
+
 import 'package:gapura/responsive.dart';
 import 'package:flutter/material.dart';
-import 'package:gapura/screens/template/background_image_upload.dart';
-import 'package:image_picker/image_picker.dart';
-
-import 'package:gapura/screens/components/my_fields.dart';
-import 'package:gapura/screens/components/header.dart';
-import 'package:gapura/screens/components/recent_files.dart';
-import 'package:gapura/screens/components/storage_details.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -101,6 +93,10 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
     var response = await http.get(uri);
     if (jsonDecode(response.body)["error"] == false) {
       setState(() {
+        contentLoad = false;
+      });
+      notif("Updated");
+      setState(() {
         titleController.text = jsonDecode(response.body)["data"]["title"];
         subtitleController.text = jsonDecode(response.body)["data"]["subtitle"];
         descriptionController.text =
@@ -108,9 +104,7 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
         imageUrl = "https://" + jsonDecode(response.body)["data"]["imagelink"];
         imageBackroundUrl =
             "https://" + jsonDecode(response.body)["data"]["backgroundlink"];
-        contentLoad = false;
       });
-      notif("Updated");
     } else {
       setState(() {});
       notif("Error");
@@ -118,12 +112,6 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
   }
 
   patchData() async {
-    if (imageString != null) {
-      print("image available");
-    }
-    if (imageBackgroundString != null) {
-      print("image background available");
-    }
     String url = dotenv.env['BASE_URL'] + "api/v1/categories/update";
     var uri = Uri.parse(url);
 
@@ -162,8 +150,6 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
                     },
     );
 
-    print(response.body);
-
     if (jsonDecode(response.body)["error"] == false) {
       notif("Behasil Update");
       setState(() {
@@ -182,7 +168,6 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
     var uri = Uri.parse(url);
 
     var response = await http.delete(uri);
-    print(response.body);
 
     if (jsonDecode(response.body)["error"] == false) {
       notif("Deleted");
@@ -202,7 +187,6 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
   void initState() {
     super.initState();
     getData();
-    print(widget.categories_id);
   }
 
   @override
@@ -210,9 +194,7 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
     return Material(
       type: MaterialType.transparency,
       child: (contentLoad)
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
+          ? Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               child: Container(
                 margin: EdgeInsets.symmetric(
@@ -223,7 +205,7 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
                 padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: bgColor,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -261,12 +243,17 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
                     descriptionBody(context),
                     SizedBox(height: defaultPadding),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           ElevatedButton(
                             style: TextButton.styleFrom(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(10), // <-- Radius
+                              ),
                               backgroundColor: primaryColor,
                               padding: EdgeInsets.symmetric(
                                 horizontal: defaultPadding * 1.5,
@@ -281,6 +268,11 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
                           SizedBox(width: 5),
                           ElevatedButton(
                             style: TextButton.styleFrom(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(10), // <-- Radius
+                              ),
                               backgroundColor: primaryColor,
                               padding: EdgeInsets.symmetric(
                                 horizontal: defaultPadding * 1.5,
@@ -295,6 +287,11 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
                           SizedBox(width: 5),
                           ElevatedButton(
                             style: TextButton.styleFrom(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(10), // <-- Radius
+                              ),
                               backgroundColor: primaryColor,
                               padding: EdgeInsets.symmetric(
                                 horizontal: defaultPadding * 1.5,

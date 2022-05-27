@@ -1,4 +1,3 @@
-import 'package:gapura/models/categories_model.dart';
 import 'package:gapura/models/user_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';

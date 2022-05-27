@@ -139,6 +139,11 @@ class _StateWidget2Screen extends State<Widget2Screen> {
                       children: <Widget>[
                         ElevatedButton(
                           style: TextButton.styleFrom(
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(10), // <-- Radius
+                            ),
                             backgroundColor: primaryColor,
                             padding: EdgeInsets.symmetric(
                               horizontal: defaultPadding * 1.5,

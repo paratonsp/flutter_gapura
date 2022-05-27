@@ -23,6 +23,10 @@ class MyFiles extends StatelessWidget {
             ),
             ElevatedButton.icon(
               style: TextButton.styleFrom(
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10), // <-- Radius
+                ),
                 backgroundColor: primaryColor,
                 padding: EdgeInsets.symmetric(
                   horizontal: defaultPadding * 1.5,

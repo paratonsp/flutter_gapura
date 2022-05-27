@@ -63,7 +63,6 @@ class _StateAsetMerekScreen extends State<AsetMerekScreen> {
         subtitleController.text =
             jsonDecode(response.body)["data"]["description"];
         imageUrl = "https://" + jsonDecode(response.body)["data"]["imagelink"];
-        print(imageUrl);
         contentLoad = false;
       });
       notif("Updated");
@@ -141,6 +140,11 @@ class _StateAsetMerekScreen extends State<AsetMerekScreen> {
                       children: <Widget>[
                         ElevatedButton(
                           style: TextButton.styleFrom(
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(10), // <-- Radius
+                            ),
                             backgroundColor: primaryColor,
                             padding: EdgeInsets.symmetric(
                               horizontal: defaultPadding * 1.5,

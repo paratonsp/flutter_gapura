@@ -40,21 +40,39 @@ class _HeaderState extends State<Header> {
           IconButton(
             icon: Icon(
               Icons.menu,
-              color: secondaryColor,
+              color: primaryColor,
             ),
             onPressed: context.read<MenuController>().controlMenu,
           ),
         Text(
           (widget.titlePage != null) ? widget.titlePage : "",
           style: TextStyle(
-              color: secondaryColor, fontSize: 20, fontWeight: FontWeight.bold),
+              color: fontColor, fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        GestureDetector(
-          child: ProfileCard(),
-          onTap: () {
+        ElevatedButton.icon(
+          style: TextButton.styleFrom(
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10), // <-- Radius
+            ),
+            backgroundColor: primaryColor,
+            padding: EdgeInsets.symmetric(
+              horizontal: defaultPadding * 1.5,
+              vertical: defaultPadding,
+            ),
+          ),
+          icon: Icon(Icons.logout),
+          label: Text("Logout"),
+          onPressed: () async {
             logoutUser();
           },
         ),
+        // GestureDetector(
+        //   child: ProfileCard(),
+        //   onTap: () {
+        //     logoutUser();
+        //   },
+        // ),
       ],
     );
   }

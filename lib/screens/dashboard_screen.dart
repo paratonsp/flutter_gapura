@@ -1,24 +1,44 @@
 import 'package:flutter_svg/svg.dart';
-import 'package:gapura/screens/components/my_fields.dart';
 import 'package:flutter/material.dart';
-
-import '../constants.dart';
 import 'package:gapura/screens/components/header.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:gapura/screens/components/recent_files.dart';
+class DashboardScreen extends StatefulWidget {
+  @override
+  State<DashboardScreen> createState() => _StateDashboardScreen();
+}
 
-class DashboardScreen extends StatelessWidget {
+class _StateDashboardScreen extends State<DashboardScreen> {
+  String token;
+  @override
+  void initState() {
+    super.initState();
+    getPrefs();
+  }
+
+  getPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      token = prefs.getString('token');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Center(
-            child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+            child: Column(
       children: [
-        SvgPicture.asset(
-          "assets/images/gold_logo.svg",
-          width: MediaQuery.of(context).size.width / 3,
-        )
+        Padding(
+          padding: EdgeInsets.all(20),
+          child: Header(titlePage: ""),
+        ),
+        Expanded(
+          child: SvgPicture.asset(
+            "assets/images/gold_logo.svg",
+            width: MediaQuery.of(context).size.width / 3,
+          ),
+        ),
       ],
     ))
         // SingleChildScrollView(

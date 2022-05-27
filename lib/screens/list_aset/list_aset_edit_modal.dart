@@ -157,7 +157,6 @@ class _ListAsetEditModal extends State<ListAsetEditModal> {
                       "image": imageString,
                     },
     );
-    print(response.body);
 
     if (jsonDecode(response.body)["error"] == false) {
       notif("Behasil Update");
@@ -176,7 +175,6 @@ class _ListAsetEditModal extends State<ListAsetEditModal> {
     var uri = Uri.parse(url);
 
     var response = await http.delete(uri);
-    print(response.body);
 
     if (jsonDecode(response.body)["error"] == false) {
       notif("Deleted");
@@ -256,6 +254,11 @@ class _ListAsetEditModal extends State<ListAsetEditModal> {
                         children: <Widget>[
                           ElevatedButton(
                             style: TextButton.styleFrom(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(10), // <-- Radius
+                              ),
                               backgroundColor: primaryColor,
                               padding: EdgeInsets.symmetric(
                                 horizontal: defaultPadding * 1.5,
@@ -270,6 +273,11 @@ class _ListAsetEditModal extends State<ListAsetEditModal> {
                           SizedBox(width: 5),
                           ElevatedButton(
                             style: TextButton.styleFrom(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(10), // <-- Radius
+                              ),
                               backgroundColor: primaryColor,
                               padding: EdgeInsets.symmetric(
                                 horizontal: defaultPadding * 1.5,
@@ -284,6 +292,11 @@ class _ListAsetEditModal extends State<ListAsetEditModal> {
                           SizedBox(width: 5),
                           ElevatedButton(
                             style: TextButton.styleFrom(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(10), // <-- Radius
+                              ),
                               backgroundColor: primaryColor,
                               padding: EdgeInsets.symmetric(
                                 horizontal: defaultPadding * 1.5,

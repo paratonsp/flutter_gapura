@@ -62,7 +62,6 @@ class _StateLandingScreen extends State<LandingScreen> {
         titleController.text = jsonDecode(response.body)["data"]["title"];
         subtitleController.text = jsonDecode(response.body)["data"]["subtitle"];
         imageUrl = "https://" + jsonDecode(response.body)["data"]["imagelink"];
-        print(imageUrl);
         contentLoad = false;
       });
       notif("Updated");
@@ -140,6 +139,11 @@ class _StateLandingScreen extends State<LandingScreen> {
                       children: <Widget>[
                         ElevatedButton(
                           style: TextButton.styleFrom(
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(10), // <-- Radius
+                            ),
                             backgroundColor: primaryColor,
                             padding: EdgeInsets.symmetric(
                               horizontal: defaultPadding * 1.5,

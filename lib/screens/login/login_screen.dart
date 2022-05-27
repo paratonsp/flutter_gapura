@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gapura/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gapura/responsive.dart';
 import 'package:gapura/screens/to_dashboard_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -34,8 +35,8 @@ class _StateLoginScreen extends State<LoginScreen> {
     focusNode.addListener(() {});
     getPrefsData();
     if (token != null) {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => ToDashboard()));
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => ToDashboard()));
     }
   }
 
@@ -48,26 +49,17 @@ class _StateLoginScreen extends State<LoginScreen> {
       email = prefs.getString('email');
       role = prefs.getString('role');
     });
-    print(token);
   }
 
   getData() async {
-    print("1");
     final prefs = await SharedPreferences.getInstance();
-
     String url = dotenv.env['BASE_URL'] + "api/v1/auth/login";
     var uri = Uri.parse(url);
-
     var response = await http.post(uri, body: {
       "email": emailController.text,
       "password": passwordController.text
     });
 
-    print(jsonDecode(response.body)["data"]["token"]);
-    print(jsonDecode(response.body)["data"]["expired"]);
-    print(jsonDecode(response.body)["data"]["fullname"]);
-    print(jsonDecode(response.body)["data"]["email"]);
-    print(jsonDecode(response.body)["data"]["role"]);
     if (jsonDecode(response.body)["error"] == false) {
       await prefs.setString(
           'token', jsonDecode(response.body)["data"]["token"]);
@@ -79,8 +71,8 @@ class _StateLoginScreen extends State<LoginScreen> {
           'email', jsonDecode(response.body)["data"]["email"]);
       await prefs.setString('role', jsonDecode(response.body)["data"]["role"]);
       notif("Sukses Masuk");
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => ToDashboard()));
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => ToDashboard()));
     } else {
       notif("Gagal Masuk: " + jsonDecode(response.body)["error"][0]["msg"]);
     }
@@ -118,16 +110,34 @@ class _StateLoginScreen extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  (!Responsive.isDesktop(context))
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Center(
+                              child: SvgPicture.asset(
+                                "assets/images/gold_logo.svg",
+                                width: MediaQuery.of(context).size.width / 2.5,
+                              ),
+                            )
+                          ],
+                        )
+                      : SizedBox(),
+                  (!Responsive.isDesktop(context))
+                      ? SizedBox(height: 40)
+                      : SizedBox(),
                   Text(
                     "Masuk ke Akun anda",
                     style: TextStyle(
                         color: loginColor,
-                        fontSize: 30,
+                        fontSize: (!Responsive.isDesktop(context)) ? 20 : 30,
                         fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: defaultPadding),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width / 4,
+                    width: (!Responsive.isDesktop(context))
+                        ? MediaQuery.of(context).size.width / 2
+                        : MediaQuery.of(context).size.width / 4,
                     child: Focus(
                       onFocusChange: (hasFocus) {
                         setState(() {
@@ -169,7 +179,9 @@ class _StateLoginScreen extends State<LoginScreen> {
                   ),
                   SizedBox(height: defaultPadding),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width / 4,
+                    width: (!Responsive.isDesktop(context))
+                        ? MediaQuery.of(context).size.width / 2
+                        : MediaQuery.of(context).size.width / 4,
                     child: Focus(
                       onFocusChange: (hasFocus) {
                         setState(() {
@@ -244,17 +256,19 @@ class _StateLoginScreen extends State<LoginScreen> {
                   ),
                 ],
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Center(
-                    child: SvgPicture.asset(
-                      "assets/images/gold_logo.svg",
-                      width: MediaQuery.of(context).size.width / 5,
+              (!Responsive.isDesktop(context))
+                  ? SizedBox()
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: SvgPicture.asset(
+                            "assets/images/gold_logo.svg",
+                            width: MediaQuery.of(context).size.width / 5,
+                          ),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
             ],
           ),
         ),

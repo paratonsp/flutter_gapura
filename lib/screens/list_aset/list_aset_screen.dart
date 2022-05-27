@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:gapura/constants.dart';
 import 'package:gapura/controllers/list_aset_controller.dart';
 import 'package:gapura/models/list_aset_model.dart';
-import 'package:gapura/screens/categories/categories_add_modal.dart';
-import 'package:gapura/screens/categories/categories_edit_modal.dart';
 import 'package:gapura/screens/components/header.dart';
 import 'package:gapura/screens/list_aset/list_aset_add_modal.dart';
+import 'package:gapura/screens/list_aset/list_aset_edit_modal.dart';
 
 class ListAsetScreen extends StatefulWidget {
   @override
@@ -50,7 +49,7 @@ class _StateListAsetScreen extends State<ListAsetScreen> {
                   flex: 5,
                   child: Column(
                     children: [
-                      // subHeader(context),
+                      subHeader(context),
                       (isLoading)
                           ? Center(
                               child: LinearProgressIndicator(),
@@ -71,10 +70,14 @@ class _StateListAsetScreen extends State<ListAsetScreen> {
     return Column(
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             ElevatedButton.icon(
               style: TextButton.styleFrom(
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10), // <-- Radius
+                ),
                 backgroundColor: primaryColor,
                 padding: EdgeInsets.symmetric(
                   horizontal: defaultPadding * 1.5,
@@ -154,9 +157,9 @@ class _StateListAsetScreen extends State<ListAsetScreen> {
                 DataColumn(
                   label: Text("File"),
                 ),
-                // DataColumn(
-                //   label: Text("Aksi"),
-                // ),
+                DataColumn(
+                  label: Text("Aksi"),
+                ),
               ],
               rows: List.generate(
                 _listAset.length,
@@ -175,12 +178,12 @@ class _StateListAsetScreen extends State<ListAsetScreen> {
         DataCell(Text((data.title == null) ? "" : data.title)),
         DataCell(Text((data.image == null) ? "" : data.image)),
         DataCell(Text((data.file == null) ? "" : data.file)),
-        // DataCell(
-        //   Text("Ubah"),
-        //   onTap: (() {
-        //     navigateModalEdit(context, data.id.toString());
-        //   }),
-        // )
+        DataCell(
+          Text("Ubah"),
+          onTap: (() {
+            navigateModalEdit(context, data.id.toString());
+          }),
+        )
       ],
     );
   }
@@ -193,7 +196,7 @@ class _StateListAsetScreen extends State<ListAsetScreen> {
         barrierColor: Colors.black.withOpacity(0.5),
         transitionDuration: Duration(milliseconds: 300),
         opaque: false,
-        pageBuilder: (_, __, ___) => CategoriesEditModal(categories_id: dataid),
+        pageBuilder: (_, __, ___) => ListAsetEditModal(assets_id: dataid),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = Offset(0.0, 1.0);
           const end = Offset.zero;

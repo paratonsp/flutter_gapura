@@ -139,6 +139,11 @@ class _StateWidget1Screen extends State<Widget1Screen> {
                       children: <Widget>[
                         ElevatedButton(
                           style: TextButton.styleFrom(
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(10), // <-- Radius
+                            ),
                             backgroundColor: primaryColor,
                             padding: EdgeInsets.symmetric(
                               horizontal: defaultPadding * 1.5,

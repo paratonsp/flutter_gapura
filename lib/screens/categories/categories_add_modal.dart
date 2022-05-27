@@ -89,12 +89,6 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
   }
 
   postData() async {
-    if (imageString != null) {
-      print("image available");
-    }
-    if (imageBackgroundString != null) {
-      print("image background available");
-    }
     String url = dotenv.env['BASE_URL'] + "api/v1/categories/add";
     var uri = Uri.parse(url);
 
@@ -128,7 +122,6 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
                       "image": imageString,
                     },
     );
-    print(response.body);
 
     if (jsonDecode(response.body)["error"] == false) {
       notif("Behasil Update");
@@ -204,6 +197,10 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
                   children: <Widget>[
                     ElevatedButton(
                       style: TextButton.styleFrom(
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10), // <-- Radius
+                        ),
                         backgroundColor: primaryColor,
                         padding: EdgeInsets.symmetric(
                           horizontal: defaultPadding * 1.5,
@@ -218,6 +215,10 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
                     SizedBox(width: 5),
                     ElevatedButton(
                       style: TextButton.styleFrom(
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10), // <-- Radius
+                        ),
                         backgroundColor: primaryColor,
                         padding: EdgeInsets.symmetric(
                           horizontal: defaultPadding * 1.5,

@@ -66,6 +66,10 @@ class _TemplateScreen extends State<TemplateScreen> {
                 children: <Widget>[
                   ElevatedButton(
                     style: TextButton.styleFrom(
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10), // <-- Radius
+                      ),
                       padding: EdgeInsets.symmetric(
                         horizontal: defaultPadding * 1.5,
                         vertical: defaultPadding,

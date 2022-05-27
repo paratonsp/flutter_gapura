@@ -111,8 +111,6 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
             },
     );
 
-    print(response.body);
-
     if (jsonDecode(response.body)["error"] == false) {
       notif("Behasil Update");
       setState(() {});
@@ -179,6 +177,11 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
                                 children: [
                                   ElevatedButton(
                                     style: TextButton.styleFrom(
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            10), // <-- Radius
+                                      ),
                                       backgroundColor: primaryColor,
                                       padding: EdgeInsets.symmetric(
                                         horizontal: defaultPadding * 1.5,
@@ -193,6 +196,11 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
                                   SizedBox(height: 5),
                                   ElevatedButton(
                                     style: TextButton.styleFrom(
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            10), // <-- Radius
+                                      ),
                                       backgroundColor: primaryColor,
                                       padding: EdgeInsets.symmetric(
                                         horizontal: defaultPadding * 1.5,
@@ -222,6 +230,11 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
                             children: [
                               ElevatedButton(
                                 style: TextButton.styleFrom(
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(10), // <-- Radius
+                                  ),
                                   backgroundColor: primaryColor,
                                   padding: EdgeInsets.symmetric(
                                     horizontal: defaultPadding * 1.5,
@@ -236,6 +249,11 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
                               SizedBox(height: defaultPadding),
                               ElevatedButton(
                                 style: TextButton.styleFrom(
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(10), // <-- Radius
+                                  ),
                                   backgroundColor: primaryColor,
                                   padding: EdgeInsets.symmetric(
                                     horizontal: defaultPadding * 1.5,
@@ -267,6 +285,11 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
                         children: <Widget>[
                           ElevatedButton(
                             style: TextButton.styleFrom(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(10), // <-- Radius
+                              ),
                               backgroundColor: primaryColor,
                               padding: EdgeInsets.symmetric(
                                 horizontal: defaultPadding * 1.5,
@@ -281,6 +304,11 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
                           SizedBox(width: 5),
                           ElevatedButton(
                             style: TextButton.styleFrom(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(10), // <-- Radius
+                              ),
                               backgroundColor: primaryColor,
                               padding: EdgeInsets.symmetric(
                                 horizontal: defaultPadding * 1.5,
@@ -289,7 +317,6 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
                             ),
                             child: Text("Simpan"),
                             onPressed: () async {
-                              // print(object)
                               postData();
                             },
                           ),
@@ -467,6 +494,10 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
           SizedBox(height: defaultPadding),
           ElevatedButton(
             style: TextButton.styleFrom(
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10), // <-- Radius
+              ),
               backgroundColor: primaryColor,
               padding: EdgeInsets.symmetric(
                 horizontal: defaultPadding * 1.5,

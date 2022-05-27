@@ -26,7 +26,6 @@ class ArticlesEditModal extends StatefulWidget {
   ArticlesEditModal({this.article_id});
   String article_id;
   @override
-  @override
   State<ArticlesEditModal> createState() => _ArticlesEditModal();
 }
 
@@ -161,7 +160,6 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
     var uri = Uri.parse(url);
 
     var response = await http.delete(uri);
-    print(response.body);
 
     if (jsonDecode(response.body)["error"] == false) {
       notif("Deleted");
@@ -229,6 +227,11 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
                                 children: [
                                   ElevatedButton(
                                     style: TextButton.styleFrom(
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            10), // <-- Radius
+                                      ),
                                       backgroundColor: primaryColor,
                                       padding: EdgeInsets.symmetric(
                                         horizontal: defaultPadding * 1.5,
@@ -243,6 +246,11 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
                                   SizedBox(height: 5),
                                   ElevatedButton(
                                     style: TextButton.styleFrom(
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            10), // <-- Radius
+                                      ),
                                       backgroundColor: primaryColor,
                                       padding: EdgeInsets.symmetric(
                                         horizontal: defaultPadding * 1.5,
@@ -272,6 +280,11 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
                             children: [
                               ElevatedButton(
                                 style: TextButton.styleFrom(
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(10), // <-- Radius
+                                  ),
                                   backgroundColor: primaryColor,
                                   padding: EdgeInsets.symmetric(
                                     horizontal: defaultPadding * 1.5,
@@ -286,6 +299,11 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
                               SizedBox(height: defaultPadding),
                               ElevatedButton(
                                 style: TextButton.styleFrom(
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(10), // <-- Radius
+                                  ),
                                   backgroundColor: primaryColor,
                                   padding: EdgeInsets.symmetric(
                                     horizontal: defaultPadding * 1.5,
@@ -317,6 +335,11 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
                         children: <Widget>[
                           ElevatedButton(
                             style: TextButton.styleFrom(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(10), // <-- Radius
+                              ),
                               backgroundColor: primaryColor,
                               padding: EdgeInsets.symmetric(
                                 horizontal: defaultPadding * 1.5,
@@ -331,6 +354,11 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
                           SizedBox(width: 5),
                           ElevatedButton(
                             style: TextButton.styleFrom(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(10), // <-- Radius
+                              ),
                               backgroundColor: primaryColor,
                               padding: EdgeInsets.symmetric(
                                 horizontal: defaultPadding * 1.5,
@@ -345,6 +373,11 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
                           SizedBox(width: 5),
                           ElevatedButton(
                             style: TextButton.styleFrom(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(10), // <-- Radius
+                              ),
                               backgroundColor: primaryColor,
                               padding: EdgeInsets.symmetric(
                                 horizontal: defaultPadding * 1.5,
@@ -353,7 +386,6 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
                             ),
                             child: Text("Simpan"),
                             onPressed: () async {
-                              // print(object)
                               patchData();
                             },
                           ),
@@ -561,6 +593,10 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
           SizedBox(height: defaultPadding),
           ElevatedButton(
             style: TextButton.styleFrom(
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10), // <-- Radius
+              ),
               backgroundColor: primaryColor,
               padding: EdgeInsets.symmetric(
                 horizontal: defaultPadding * 1.5,

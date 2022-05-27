@@ -162,6 +162,11 @@ class _UserEditModal extends State<UserEditModal> {
                         children: <Widget>[
                           ElevatedButton(
                             style: TextButton.styleFrom(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(10), // <-- Radius
+                              ),
                               backgroundColor: primaryColor,
                               padding: EdgeInsets.symmetric(
                                 horizontal: defaultPadding * 1.5,
@@ -176,6 +181,11 @@ class _UserEditModal extends State<UserEditModal> {
                           SizedBox(width: 5),
                           ElevatedButton(
                             style: TextButton.styleFrom(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(10), // <-- Radius
+                              ),
                               backgroundColor: primaryColor,
                               padding: EdgeInsets.symmetric(
                                 horizontal: defaultPadding * 1.5,
@@ -190,6 +200,11 @@ class _UserEditModal extends State<UserEditModal> {
                           SizedBox(width: 5),
                           ElevatedButton(
                             style: TextButton.styleFrom(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(10), // <-- Radius
+                              ),
                               backgroundColor: primaryColor,
                               padding: EdgeInsets.symmetric(
                                 horizontal: defaultPadding * 1.5,

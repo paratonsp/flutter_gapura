@@ -48,7 +48,6 @@ class _UserAddModal extends State<UserAddModal> {
         "phone": phoneController.text,
       },
     );
-    print(response.body);
 
     if (jsonDecode(response.body)["error"] == false) {
       notif("Behasil Update");
@@ -114,6 +113,10 @@ class _UserAddModal extends State<UserAddModal> {
                   children: <Widget>[
                     ElevatedButton(
                       style: TextButton.styleFrom(
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10), // <-- Radius
+                        ),
                         backgroundColor: primaryColor,
                         padding: EdgeInsets.symmetric(
                           horizontal: defaultPadding * 1.5,
@@ -128,6 +131,10 @@ class _UserAddModal extends State<UserAddModal> {
                     SizedBox(width: 5),
                     ElevatedButton(
                       style: TextButton.styleFrom(
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10), // <-- Radius
+                        ),
                         backgroundColor: primaryColor,
                         padding: EdgeInsets.symmetric(
                           horizontal: defaultPadding * 1.5,
