@@ -16,6 +16,10 @@ import 'package:gapura/screens/components/recent_files.dart';
 import 'package:gapura/screens/components/storage_details.dart';
 
 class ArticlesSubLabelModal extends StatefulWidget {
+  ArticlesSubLabelModal({
+    this.sublabel,
+  });
+  String sublabel;
   @override
   State<ArticlesSubLabelModal> createState() => _ArticlesSubLabelModal();
 }
@@ -23,15 +27,10 @@ class ArticlesSubLabelModal extends StatefulWidget {
 class _ArticlesSubLabelModal extends State<ArticlesSubLabelModal> {
   HtmlEditorController subLabelController = HtmlEditorController();
 
-  // uploadData() async {
-  //   await AddCategoriesController.load(
-  //     titleController.text,
-  //     subtitleController.text,
-  //     descriptionController.text,
-  //     (imageBackgroundPicked != null) ? imageBackgroundPicked.name : "",
-  //     (imagePicked != null) ? imagePicked.name : "",
-  //   ).then((value) {});
-  // }
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +54,7 @@ class _ArticlesSubLabelModal extends State<ArticlesSubLabelModal> {
               Row(
                 children: [
                   Text(
-                    "Sub Label Gambar",
+                    "Label Gambar",
                     style: TextStyle(
                         color: secondaryColor,
                         fontSize: 20,
@@ -64,7 +63,7 @@ class _ArticlesSubLabelModal extends State<ArticlesSubLabelModal> {
                 ],
               ),
               SizedBox(height: defaultPadding),
-              subLabelBody(context),
+              labelBody(context),
               SizedBox(height: defaultPadding),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -80,8 +79,9 @@ class _ArticlesSubLabelModal extends State<ArticlesSubLabelModal> {
                         ),
                       ),
                       child: Text("Batal"),
-                      onPressed: () {
-                        Navigator.pop(context);
+                      onPressed: () async {
+                        var text = await subLabelController.getText();
+                        Navigator.pop(context, text);
                       },
                     ),
                     SizedBox(width: 5),
@@ -94,8 +94,9 @@ class _ArticlesSubLabelModal extends State<ArticlesSubLabelModal> {
                         ),
                       ),
                       child: Text("Simpan"),
-                      onPressed: () {
-                        // uploadData();
+                      onPressed: () async {
+                        var text = await subLabelController.getText();
+                        Navigator.pop(context, text);
                       },
                     ),
                   ],
@@ -108,7 +109,7 @@ class _ArticlesSubLabelModal extends State<ArticlesSubLabelModal> {
     );
   }
 
-  subLabelBody(BuildContext context) {
+  labelBody(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
@@ -119,13 +120,14 @@ class _ArticlesSubLabelModal extends State<ArticlesSubLabelModal> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Sub Label",
+            "Label",
             style: Theme.of(context).textTheme.subtitle1,
           ),
           SizedBox(height: 10),
           HtmlEditor(
             controller: subLabelController,
             htmlEditorOptions: HtmlEditorOptions(
+              initialText: widget.sublabel,
               hint: '',
               darkMode: false,
             ),
@@ -159,17 +161,6 @@ class _ArticlesSubLabelModal extends State<ArticlesSubLabelModal> {
             ),
             otherOptions:
                 OtherOptions(height: MediaQuery.of(context).size.height / 7),
-            plugins: [
-              SummernoteAtMention(
-                  getSuggestionsMobile: (String value) {
-                    var mentions = <String>['test1', 'test2', 'test3'];
-                    return mentions
-                        .where((element) => element.contains(value))
-                        .toList();
-                  },
-                  mentionsWeb: ['test1', 'test2', 'test3'],
-                  onSelect: (String value) {}),
-            ],
           ),
         ],
       ),

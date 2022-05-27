@@ -4,6 +4,7 @@ class ArticlesModel {
   double id;
   double categories_id;
   String title;
+  String slug;
   String label;
   String sublabel;
   String description;
@@ -14,6 +15,7 @@ class ArticlesModel {
     this.id,
     this.categories_id,
     this.title,
+    this.slug,
     this.label,
     this.sublabel,
     this.description,
@@ -25,6 +27,7 @@ class ArticlesModel {
     id = json['id'];
     categories_id = json['categories_id'];
     title = json['title'];
+    slug = json['slug'];
     label = json['label'];
     sublabel = json['sublabel'];
     description = json['description'];
@@ -37,6 +40,7 @@ class ArticlesModel {
     data['id'] = this.id;
     data['categories_id'] = this.categories_id;
     data['title'] = this.title;
+    data['slug'] = this.slug;
     data['label'] = this.label;
     data['sublabel'] = this.sublabel;
     data['description'] = this.description;

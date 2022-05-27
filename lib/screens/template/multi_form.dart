@@ -40,10 +40,10 @@ class _StateMultiForm extends State<MultiForm> {
               },
               maxLines: 4,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  hintText: "..."),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
             ),
           ),
         ],

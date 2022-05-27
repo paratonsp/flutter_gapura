@@ -40,10 +40,10 @@ class _StateSingleForm extends State<SingleForm> {
               },
               controller: singleFormController,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  hintText: "..."),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
             ),
           ),
         ],

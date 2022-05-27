@@ -1,35 +1,36 @@
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
+import 'package:gapura/controllers/user_controller.dart';
+import 'package:gapura/screens/user/user_add_modal.dart';
+import 'package:gapura/screens/user/user_edit_modal.dart';
 
 import 'package:gapura/constants.dart';
-import 'package:gapura/controllers/articles_controller.dart';
-import 'package:gapura/models/articles_model.dart';
-import 'package:gapura/screens/articles/articles_add_modal.dart';
-import 'package:gapura/screens/articles/articles_edit_modal.dart';
+import 'package:gapura/models/user_model.dart';
 import 'package:gapura/screens/components/header.dart';
 
-class ArticlesScreen extends StatefulWidget {
+class UserScreen extends StatefulWidget {
   @override
-  State<ArticlesScreen> createState() => _StateArticlesScreen();
+  State<UserScreen> createState() => _StateUserScreen();
 }
 
-class _StateArticlesScreen extends State<ArticlesScreen> {
-  List<ArticlesModel> _listArticles;
+class _StateUserScreen extends State<UserScreen> {
+  List<UserModel> _listUser;
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    categoriesList();
+    userList();
   }
 
-  categoriesList() async {
-    await ListArticlesController.load().then((value) {
+  userList() async {
+    await ListUserController.load().then((value) {
       setState(() {
-        _listArticles = value;
+        _listUser = value;
         isLoading = false;
       });
     });
+    isLoading = false;
   }
 
   @override
@@ -40,7 +41,7 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
         padding: EdgeInsets.all(defaultPadding),
         child: Column(
           children: [
-            Header(titlePage: "Artikel"),
+            Header(titlePage: "Manajemen Pengguna"),
             SizedBox(height: defaultPadding),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +91,7 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
                     barrierColor: Colors.black.withOpacity(0.5),
                     transitionDuration: Duration(milliseconds: 300),
                     opaque: false,
-                    pageBuilder: (_, __, ___) => ArticlesAddModal(),
+                    pageBuilder: (_, __, ___) => UserAddModal(),
                     transitionsBuilder:
                         (context, animation, secondaryAnimation, child) {
                       const begin = Offset(0.0, 1.0);
@@ -112,7 +113,7 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
                 )
                     .then((value) {
                   setState(() {
-                    categoriesList();
+                    userList();
                   });
                 });
               },
@@ -135,7 +136,7 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "List Artikel",
+            "List Pengguna",
             style: Theme.of(context).textTheme.subtitle1,
           ),
           SizedBox(
@@ -145,24 +146,21 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
               minWidth: 600,
               columns: [
                 DataColumn(
-                  label: Text("Judul"),
+                  label: Text("Nama Lengkap"),
                 ),
                 DataColumn(
-                  label: Text("Kategori"),
+                  label: Text("Nama User"),
                 ),
                 DataColumn(
-                  label: Text("Slug"),
-                ),
-                DataColumn(
-                  label: Text("Deskripsi"),
+                  label: Text("Surel"),
                 ),
                 DataColumn(
                   label: Text("Aksi"),
                 ),
               ],
               rows: List.generate(
-                _listArticles.length,
-                (index) => recentFileDataRow(_listArticles[index], context),
+                _listUser.length,
+                (index) => recentFileDataRow(_listUser[index], context),
               ),
             ),
           ),
@@ -171,25 +169,12 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
     );
   }
 
-  DataRow recentFileDataRow(ArticlesModel data, BuildContext context) {
+  DataRow recentFileDataRow(UserModel data, BuildContext context) {
     return DataRow(
       cells: [
-        DataCell(Text(
-          (data.title == null) ? "" : data.title,
-          overflow: TextOverflow.ellipsis,
-        )),
-        DataCell(Text(
-          (data.categories == null) ? "" : data.categories,
-          overflow: TextOverflow.ellipsis,
-        )),
-        DataCell(Text(
-          (data.slug == null) ? "" : data.slug,
-          overflow: TextOverflow.ellipsis,
-        )),
-        DataCell(Text(
-          (data.description == null) ? "" : data.description,
-          overflow: TextOverflow.ellipsis,
-        )),
+        DataCell(Text((data.fullname == null) ? "" : data.fullname)),
+        DataCell(Text((data.username == null) ? "" : data.username)),
+        DataCell(Text((data.email == null) ? "" : data.email)),
         DataCell(
           Text("Ubah"),
           onTap: (() {
@@ -208,7 +193,7 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
         barrierColor: Colors.black.withOpacity(0.5),
         transitionDuration: Duration(milliseconds: 300),
         opaque: false,
-        pageBuilder: (_, __, ___) => ArticlesEditModal(article_id: dataid),
+        pageBuilder: (_, __, ___) => UserEditModal(user_id: dataid),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = Offset(0.0, 1.0);
           const end = Offset.zero;
@@ -229,7 +214,7 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
     )
         .then((value) {
       setState(() {
-        categoriesList();
+        userList();
       });
     });
   }

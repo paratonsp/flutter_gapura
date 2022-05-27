@@ -140,11 +140,6 @@ class _ArticlesLabelModal extends State<ArticlesLabelModal> {
                   fontName: false,
                   fontSizeUnit: false,
                 ),
-                OtherButtons(
-                  help: false,
-                  copy: false,
-                  paste: false,
-                ),
               ],
 
               toolbarPosition: ToolbarPosition.aboveEditor, //by default

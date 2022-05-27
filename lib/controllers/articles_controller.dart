@@ -15,8 +15,8 @@ class ListArticlesController {
     List<ArticlesModel> list = [];
     for (var data in jsonDecode(response.body)['data'] as List) {
       list.add(ArticlesModel.fromJson(data));
-      return list;
     }
+    return list;
   }
 }
 

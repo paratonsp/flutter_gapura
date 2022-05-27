@@ -4,13 +4,32 @@ import 'package:gapura/controllers/MenuController.dart';
 import 'package:gapura/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gapura/screens/login/login_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../constants.dart';
 
-class Header extends StatelessWidget {
-  Header({this.titlePage});
+class Header extends StatefulWidget {
+  Header({Key key, this.titlePage}) : super(key: key);
   String titlePage;
+
+  @override
+  State<Header> createState() => _HeaderState();
+}
+
+class _HeaderState extends State<Header> {
+  logoutUser() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.remove("token");
+    await prefs.remove("expired");
+    await prefs.remove("fullname");
+    await prefs.remove("email");
+    await prefs.remove("role");
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => LoginScreen()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,29 +44,23 @@ class Header extends StatelessWidget {
             ),
             onPressed: context.read<MenuController>().controlMenu,
           ),
-        if (!Responsive.isMobile(context))
-          Text(
-            (titlePage != null) ? titlePage : "",
-            // style: Theme.of(context).textTheme.headline6,
-            style: TextStyle(
-                color: secondaryColor,
-                fontSize: 20,
-                fontWeight: FontWeight.bold),
-          ),
-        if (!Responsive.isMobile(context))
-          Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
-        // Expanded(child: SearchField()),
-        ProfileCard()
+        Text(
+          (widget.titlePage != null) ? widget.titlePage : "",
+          style: TextStyle(
+              color: secondaryColor, fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        GestureDetector(
+          child: ProfileCard(),
+          onTap: () {
+            logoutUser();
+          },
+        ),
       ],
     );
   }
 }
 
 class ProfileCard extends StatelessWidget {
-  const ProfileCard({
-    Key key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -62,16 +75,13 @@ class ProfileCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.asset(
-            "assets/images/profile_pic.png",
-            height: 38,
-          ),
-          if (!Responsive.isMobile(context))
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-              child: Text("User"),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
+            child: Text(
+              "Logout",
+              style: TextStyle(color: bgColor),
             ),
+          ),
         ],
       ),
     );

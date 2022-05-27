@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_web_libraries_in_flutter
+// ignore_for_file: non_constant_identifier_names, avoid_web_libraries_in_flutter
 
 import 'dart:convert';
 import 'dart:html';
@@ -12,12 +12,12 @@ import 'package:gapura/screens/components/header.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class AboutScreen extends StatefulWidget {
+class AsetMerekScreen extends StatefulWidget {
   @override
-  State<AboutScreen> createState() => _StateAboutScreen();
+  State<AsetMerekScreen> createState() => _StateAsetMerekScreen();
 }
 
-class _StateAboutScreen extends State<AboutScreen> {
+class _StateAsetMerekScreen extends State<AsetMerekScreen> {
   TextEditingController titleController = TextEditingController();
   TextEditingController subtitleController = TextEditingController();
 
@@ -53,7 +53,7 @@ class _StateAboutScreen extends State<AboutScreen> {
   }
 
   getData() async {
-    String url = dotenv.env['BASE_URL'] + "api/v1/about/show/1";
+    String url = dotenv.env['BASE_URL'] + "api/v1/about/show/2";
     var uri = Uri.parse(url);
 
     var response = await http.get(uri);
@@ -63,6 +63,7 @@ class _StateAboutScreen extends State<AboutScreen> {
         subtitleController.text =
             jsonDecode(response.body)["data"]["description"];
         imageUrl = "https://" + jsonDecode(response.body)["data"]["imagelink"];
+        print(imageUrl);
         contentLoad = false;
       });
       notif("Updated");
@@ -80,12 +81,12 @@ class _StateAboutScreen extends State<AboutScreen> {
       uri,
       body: (imageString == null)
           ? {
-              "about_id": "landing",
+              "about_id": "2",
               "title": titleController.text,
               "description": subtitleController.text,
             }
           : {
-              "about_id": "landing",
+              "about_id": "2",
               "title": titleController.text,
               "description": subtitleController.text,
               "image": imageString,
@@ -125,7 +126,7 @@ class _StateAboutScreen extends State<AboutScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Header(titlePage: "Tentang"),
+                  Header(titlePage: "Aset Merek"),
                   SizedBox(height: defaultPadding),
                   imageBody(context),
                   SizedBox(height: defaultPadding),
@@ -146,8 +147,7 @@ class _StateAboutScreen extends State<AboutScreen> {
                               vertical: defaultPadding,
                             ),
                           ),
-                          child: Text("Simpan",
-                              style: TextStyle(color: fontColor)),
+                          child: Text("Simpan"),
                           onPressed: () {
                             patchData();
                           },
@@ -211,15 +211,15 @@ class _StateAboutScreen extends State<AboutScreen> {
                         onPressed: () {
                           pickImage();
                         },
-                        icon: Icon(Icons.upload, color: bgColor),
+                        icon: Icon(Icons.upload, color: secondaryColor),
                         label: Text(
                           "Unggah Background",
-                          style: TextStyle(color: bgColor),
+                          style: TextStyle(color: secondaryColor),
                         ),
                       ),
                       Text(
                         "Upload max: 2MB",
-                        style: TextStyle(color: bgColor),
+                        style: TextStyle(color: secondaryColor),
                       ),
                     ],
                   )
@@ -255,16 +255,16 @@ class _StateAboutScreen extends State<AboutScreen> {
         children: [
           Text(
             "Judul",
-            style: TextStyle(color: bgColor, fontSize: 16),
+            style: TextStyle(color: secondaryColor, fontSize: 16),
           ),
           SizedBox(height: 10),
           SizedBox(
             width: double.infinity,
             child: TextField(
               controller: titleController,
-              style: TextStyle(color: bgColor),
+              style: TextStyle(color: secondaryColor),
               decoration: InputDecoration(
-                fillColor: bgColor,
+                fillColor: secondaryColor,
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: primaryColor),
                   borderRadius: BorderRadius.circular(10),
@@ -288,16 +288,16 @@ class _StateAboutScreen extends State<AboutScreen> {
         children: [
           Text(
             "Sub Judul",
-            style: TextStyle(color: bgColor, fontSize: 16),
+            style: TextStyle(color: secondaryColor, fontSize: 16),
           ),
           SizedBox(height: 10),
           SizedBox(
             width: double.infinity,
             child: TextField(
               controller: subtitleController,
-              style: TextStyle(color: bgColor),
+              style: TextStyle(color: secondaryColor),
               decoration: InputDecoration(
-                fillColor: bgColor,
+                fillColor: secondaryColor,
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: primaryColor),
                   borderRadius: BorderRadius.circular(10),

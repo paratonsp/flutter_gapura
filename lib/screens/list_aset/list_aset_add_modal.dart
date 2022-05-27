@@ -4,12 +4,14 @@ import 'dart:convert';
 import 'dart:html';
 
 import 'package:cross_file_image/cross_file_image.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gapura/constants.dart';
 import 'package:gapura/controllers/categories_controller.dart';
 import 'package:gapura/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:gapura/screens/template/background_image_upload.dart';
+import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:gapura/screens/components/my_fields.dart';
@@ -20,21 +22,22 @@ import 'package:gapura/screens/components/storage_details.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class CategoriesAddModal extends StatefulWidget {
+class ListAsetAddModal extends StatefulWidget {
   @override
-  State<CategoriesAddModal> createState() => _CategoriesAddModal();
+  State<ListAsetAddModal> createState() => _ListAsetAddModal();
 }
 
-class _CategoriesAddModal extends State<CategoriesAddModal> {
+class _ListAsetAddModal extends State<ListAsetAddModal> {
   TextEditingController titleController = TextEditingController();
   TextEditingController subtitleController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
+  HtmlEditorController descriptionController = HtmlEditorController();
 
   List<int> imageBytes;
   String imageString;
   String imageUrl;
 
   List<int> imageBackgroundBytes;
+  String imageBackgroundName;
   String imageBackgroundString;
   String imageBackroundUrl;
 
@@ -67,13 +70,16 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
     InputElement uploadInput = FileUploadInputElement();
     uploadInput.multiple = false;
     uploadInput.draggable = false;
-    uploadInput.accept = '.png,.jpg,.jpeg';
+    uploadInput.accept = '';
     uploadInput.size = 2000000;
     uploadInput.click();
     document.body.append(uploadInput);
     uploadInput.onChange.listen((e) {
       final files = uploadInput.files;
       final file = files[0];
+      setState(() {
+        imageBackgroundName = file.name;
+      });
       final reader = FileReader();
       reader.onLoadEnd.listen((value) {
         var _bytesData =
@@ -89,13 +95,9 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
   }
 
   postData() async {
-    if (imageString != null) {
-      print("image available");
-    }
-    if (imageBackgroundString != null) {
-      print("image background available");
-    }
-    String url = dotenv.env['BASE_URL'] + "api/v1/categories/add";
+    var descriptionText = await descriptionController.getText();
+
+    String url = dotenv.env['BASE_URL'] + "api/v1/assets/add";
     var uri = Uri.parse(url);
 
     var response = await http.post(
@@ -103,28 +105,24 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
       body: (imageString == null && imageBackgroundString == null)
           ? {
               "title": titleController.text,
-              "subtitle": subtitleController.text,
-              "description": descriptionController.text,
+              "attention": descriptionText,
             }
           : (imageBackgroundString == null)
               ? {
                   "title": titleController.text,
-                  "subtitle": subtitleController.text,
-                  "description": descriptionController.text,
+                  "attention": descriptionText,
                   "image": imageString,
                 }
               : (imageString == null)
                   ? {
                       "title": titleController.text,
-                      "subtitle": subtitleController.text,
-                      "description": descriptionController.text,
-                      "background": imageBackgroundString,
+                      "attention": descriptionText,
+                      "document": imageBackgroundString,
                     }
                   : {
                       "title": titleController.text,
-                      "subtitle": subtitleController.text,
-                      "description": descriptionController.text,
-                      "background": imageBackgroundString,
+                      "attention": descriptionText,
+                      "document": imageBackgroundString,
                       "image": imageString,
                     },
     );
@@ -168,7 +166,7 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
               Row(
                 children: [
                   Text(
-                    "Tambah Kategori",
+                    "Tambah Aset",
                     style: TextStyle(
                         color: secondaryColor,
                         fontSize: 20,
@@ -192,8 +190,6 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
                     ]),
               SizedBox(height: defaultPadding),
               titleBody(context),
-              SizedBox(height: defaultPadding),
-              subtitleBody(context),
               SizedBox(height: defaultPadding),
               descriptionBody(context),
               SizedBox(height: defaultPadding),
@@ -261,7 +257,7 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
                     },
                     icon: Icon(Icons.upload, color: secondaryColor),
                     label: Text(
-                      "Unggah Ilustrasi",
+                      "Unggah Gambar",
                       style: TextStyle(color: secondaryColor),
                     ),
                   ),
@@ -308,7 +304,7 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
           borderRadius: const BorderRadius.all(Radius.circular(10)),
           border: Border.all(color: secondaryColor)),
       child: Center(
-        child: imageBackgroundBytes == null
+        child: imageBackgroundName == null
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -318,7 +314,7 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
                     },
                     icon: Icon(Icons.upload, color: secondaryColor),
                     label: Text(
-                      "Unggah Background",
+                      "Unggah File",
                       style: TextStyle(color: secondaryColor),
                     ),
                   ),
@@ -328,9 +324,13 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
                   ),
                 ],
               )
-            : Stack(
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Image.memory(imageBackgroundBytes),
+                  Text(
+                    imageBackgroundName,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   Positioned(
                     right: 5.0,
                     child: InkWell(
@@ -343,6 +343,7 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
                         setState(() {
                           imageBackgroundBytes = null;
                           imageBackgroundString = null;
+                          imageBackgroundName = null;
                         });
                       },
                     ),
@@ -386,67 +387,88 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
     );
   }
 
-  subtitleBody(BuildContext context) {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Sub Judul",
-            style: TextStyle(color: secondaryColor, fontSize: 16),
-          ),
-          SizedBox(height: 10),
-          SizedBox(
-            width: double.infinity,
-            child: TextField(
-              controller: subtitleController,
-              style: TextStyle(color: secondaryColor),
-              decoration: InputDecoration(
-                fillColor: secondaryColor,
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: primaryColor),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: secondaryColor),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   descriptionBody(BuildContext context) {
     return Container(
+      padding: EdgeInsets.all(defaultPadding),
+      decoration: BoxDecoration(
+        color: secondaryColor,
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "Deskripsi",
-            style: TextStyle(color: secondaryColor, fontSize: 16),
+            style: Theme.of(context).textTheme.subtitle1,
           ),
           SizedBox(height: 10),
-          SizedBox(
-            width: double.infinity,
-            child: TextField(
-              controller: descriptionController,
-              maxLines: 4,
-              style: TextStyle(color: secondaryColor),
-              decoration: InputDecoration(
-                fillColor: secondaryColor,
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: primaryColor),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: secondaryColor),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
+          HtmlEditor(
+            controller: descriptionController,
+            htmlEditorOptions: HtmlEditorOptions(
+              hint: '',
+              darkMode: false,
+              initialText: "",
             ),
+            htmlToolbarOptions: HtmlToolbarOptions(
+              defaultToolbarButtons: [
+                StyleButtons(),
+                FontSettingButtons(
+                  fontName: false,
+                  fontSizeUnit: false,
+                ),
+                ListButtons(
+                  listStyles: false,
+                ),
+                FontButtons(
+                  clearAll: false,
+                  strikethrough: false,
+                  superscript: false,
+                  subscript: false,
+                ),
+                InsertButtons(
+                  table: false,
+                  audio: false,
+                  hr: false,
+                ),
+                OtherButtons(
+                  help: false,
+                  copy: false,
+                  paste: false,
+                ),
+              ],
+
+              toolbarPosition: ToolbarPosition.aboveEditor, //by default
+              toolbarType: ToolbarType.nativeScrollable, //by default
+              onButtonPressed:
+                  (ButtonType type, bool status, Function() updateStatus) {
+                return true;
+              },
+              onDropdownChanged: (DropdownType type, dynamic changed,
+                  Function(dynamic) updateSelectedItem) {
+                return true;
+              },
+              mediaLinkInsertInterceptor: (String url, InsertFileType type) {
+                return true;
+              },
+              mediaUploadInterceptor:
+                  (PlatformFile file, InsertFileType type) async {
+                //filename
+                return true;
+              },
+            ),
+            otherOptions:
+                OtherOptions(height: MediaQuery.of(context).size.height / 2),
+            plugins: [
+              SummernoteAtMention(
+                  getSuggestionsMobile: (String value) {
+                    var mentions = <String>['test1', 'test2', 'test3'];
+                    return mentions
+                        .where((element) => element.contains(value))
+                        .toList();
+                  },
+                  mentionsWeb: ['test1', 'test2', 'test3'],
+                  onSelect: (String value) {}),
+            ],
           ),
         ],
       ),

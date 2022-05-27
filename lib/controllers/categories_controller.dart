@@ -7,7 +7,6 @@ class ListCategoriesController {
   static load() async {
     String url = dotenv.env['BASE_URL'] + "api/v1/categories";
 
-    // Uri parseUrl = Uri.parse(url).replace(queryParameters: {'sort': "ASC"});
     Uri parseUrl = Uri.parse(url);
 
     final response = await http.get(parseUrl);
@@ -15,8 +14,8 @@ class ListCategoriesController {
     List<CategoriesModel> list = [];
     for (var data in jsonDecode(response.body)['data'] as List) {
       list.add(CategoriesModel.fromJson(data));
-      return list;
     }
+    return list;
   }
 }
 

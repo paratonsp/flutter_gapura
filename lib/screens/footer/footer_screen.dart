@@ -1,4 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:gapura/constants.dart';
 import 'package:gapura/screens/components/header.dart';
@@ -14,14 +20,56 @@ class _StateFooterScreen extends State<FooterScreen> {
   TextEditingController alamatController = TextEditingController();
   TextEditingController dinasController = TextEditingController();
 
-  // uploadData() async {
-  //   await AddCategoriesController.load(
-  //     titleController.text,
-  //     subtitleController.text,
-  //     descriptionController.text,
-  //     (imagePicked != null) ? imagePicked.name : "",
-  //   ).then((value) {});
-  // }
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    String url = dotenv.env['BASE_URL'] + "api/v1/footer";
+    var uri = Uri.parse(url);
+
+    var response = await http.get(uri);
+    if (jsonDecode(response.body)["status"] == 200) {
+      setState(() {
+        copyrightController.text =
+            jsonDecode(response.body)["data"][0]["copyright"];
+        telponController.text = jsonDecode(response.body)["data"][0]["phone"];
+        alamatController.text = jsonDecode(response.body)["data"][0]["address"];
+        dinasController.text = jsonDecode(response.body)["data"][0]["dinas"];
+      });
+      notif("Updated");
+    } else {
+      setState(() {});
+      notif("Error");
+    }
+  }
+
+  patchData() async {
+    String url = dotenv.env['BASE_URL'] + "api/v1/footer";
+    var uri = Uri.parse(url);
+
+    var response = await http.patch(uri, body: {
+      "copyright": copyrightController.text,
+      "address": alamatController.text,
+      "phone": telponController.text,
+      "dinas": dinasController.text,
+    });
+
+    if (jsonDecode(response.body)["status"] == 200) {
+      notif("Behasil Update");
+      setState(() {});
+    } else {
+      notif("Gagal Update");
+      setState(() {});
+    }
+  }
+
+  notif(String msg) async {
+    Fluttertoast.showToast(
+        msg: msg, webBgColor: "linear-gradient(to right, #F15A24, #F15A24)");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +105,7 @@ class _StateFooterScreen extends State<FooterScreen> {
                     ),
                     child: Text("Simpan"),
                     onPressed: () {
-                      // uploadData();
+                      patchData();
                     },
                   ),
                 ],
@@ -85,16 +133,16 @@ class _StateFooterScreen extends State<FooterScreen> {
               controller: copyrightController,
               style: TextStyle(color: secondaryColor),
               decoration: InputDecoration(
-                  fillColor: secondaryColor,
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: primaryColor),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: secondaryColor),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  hintText: "..."),
+                fillColor: secondaryColor,
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: primaryColor),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: secondaryColor),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
             ),
           ),
         ],
@@ -118,16 +166,16 @@ class _StateFooterScreen extends State<FooterScreen> {
               controller: telponController,
               style: TextStyle(color: secondaryColor),
               decoration: InputDecoration(
-                  fillColor: secondaryColor,
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: primaryColor),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: secondaryColor),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  hintText: "..."),
+                fillColor: secondaryColor,
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: primaryColor),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: secondaryColor),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
             ),
           ),
         ],
@@ -151,16 +199,16 @@ class _StateFooterScreen extends State<FooterScreen> {
               controller: alamatController,
               style: TextStyle(color: secondaryColor),
               decoration: InputDecoration(
-                  fillColor: secondaryColor,
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: primaryColor),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: secondaryColor),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  hintText: "..."),
+                fillColor: secondaryColor,
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: primaryColor),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: secondaryColor),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
             ),
           ),
         ],
@@ -184,16 +232,16 @@ class _StateFooterScreen extends State<FooterScreen> {
               controller: dinasController,
               style: TextStyle(color: secondaryColor),
               decoration: InputDecoration(
-                  fillColor: secondaryColor,
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: primaryColor),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: secondaryColor),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  hintText: "..."),
+                fillColor: secondaryColor,
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: primaryColor),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: secondaryColor),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
             ),
           ),
         ],

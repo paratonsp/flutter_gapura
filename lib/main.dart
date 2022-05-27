@@ -1,9 +1,7 @@
 import 'package:gapura/constants.dart';
-import 'package:gapura/controllers/MenuController.dart';
-import 'package:gapura/screens/main_screen.dart';
+import 'package:gapura/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
@@ -11,7 +9,17 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _StateMyApp();
+}
+
+class _StateMyApp extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,18 +27,12 @@ class MyApp extends StatelessWidget {
       title: 'Gapura',
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: bgColor,
-        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-            .apply(bodyColor: fontColor),
+        textTheme:
+            GoogleFonts.signikaNegativeTextTheme(Theme.of(context).textTheme)
+                .apply(bodyColor: fontColor),
         canvasColor: secondaryColor,
       ),
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-            create: (context) => MenuController(),
-          ),
-        ],
-        child: MainScreen(),
-      ),
+      home: LoginScreen(),
     );
   }
 }

@@ -2,31 +2,32 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 
 import 'package:gapura/constants.dart';
-import 'package:gapura/controllers/articles_controller.dart';
-import 'package:gapura/models/articles_model.dart';
-import 'package:gapura/screens/articles/articles_add_modal.dart';
-import 'package:gapura/screens/articles/articles_edit_modal.dart';
+import 'package:gapura/controllers/list_aset_controller.dart';
+import 'package:gapura/models/list_aset_model.dart';
+import 'package:gapura/screens/categories/categories_add_modal.dart';
+import 'package:gapura/screens/categories/categories_edit_modal.dart';
 import 'package:gapura/screens/components/header.dart';
+import 'package:gapura/screens/list_aset/list_aset_add_modal.dart';
 
-class ArticlesScreen extends StatefulWidget {
+class ListAsetScreen extends StatefulWidget {
   @override
-  State<ArticlesScreen> createState() => _StateArticlesScreen();
+  State<ListAsetScreen> createState() => _StateListAsetScreen();
 }
 
-class _StateArticlesScreen extends State<ArticlesScreen> {
-  List<ArticlesModel> _listArticles;
+class _StateListAsetScreen extends State<ListAsetScreen> {
+  List<ListAsetModel> _listAset;
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    categoriesList();
+    asetList();
   }
 
-  categoriesList() async {
-    await ListArticlesController.load().then((value) {
+  asetList() async {
+    await ListAsetController.load().then((value) {
       setState(() {
-        _listArticles = value;
+        _listAset = value;
         isLoading = false;
       });
     });
@@ -40,7 +41,7 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
         padding: EdgeInsets.all(defaultPadding),
         child: Column(
           children: [
-            Header(titlePage: "Artikel"),
+            Header(titlePage: "List Aset"),
             SizedBox(height: defaultPadding),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +50,7 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
                   flex: 5,
                   child: Column(
                     children: [
-                      subHeader(context),
+                      // subHeader(context),
                       (isLoading)
                           ? Center(
                               child: LinearProgressIndicator(),
@@ -90,7 +91,7 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
                     barrierColor: Colors.black.withOpacity(0.5),
                     transitionDuration: Duration(milliseconds: 300),
                     opaque: false,
-                    pageBuilder: (_, __, ___) => ArticlesAddModal(),
+                    pageBuilder: (_, __, ___) => ListAsetAddModal(),
                     transitionsBuilder:
                         (context, animation, secondaryAnimation, child) {
                       const begin = Offset(0.0, 1.0);
@@ -112,7 +113,7 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
                 )
                     .then((value) {
                   setState(() {
-                    categoriesList();
+                    asetList();
                   });
                 });
               },
@@ -135,7 +136,7 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "List Artikel",
+            "List Aset",
             style: Theme.of(context).textTheme.subtitle1,
           ),
           SizedBox(
@@ -148,21 +149,18 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
                   label: Text("Judul"),
                 ),
                 DataColumn(
-                  label: Text("Kategori"),
+                  label: Text("Thumbnail"),
                 ),
                 DataColumn(
-                  label: Text("Slug"),
+                  label: Text("File"),
                 ),
-                DataColumn(
-                  label: Text("Deskripsi"),
-                ),
-                DataColumn(
-                  label: Text("Aksi"),
-                ),
+                // DataColumn(
+                //   label: Text("Aksi"),
+                // ),
               ],
               rows: List.generate(
-                _listArticles.length,
-                (index) => recentFileDataRow(_listArticles[index], context),
+                _listAset.length,
+                (index) => recentFileDataRow(_listAset[index], context),
               ),
             ),
           ),
@@ -171,31 +169,18 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
     );
   }
 
-  DataRow recentFileDataRow(ArticlesModel data, BuildContext context) {
+  DataRow recentFileDataRow(ListAsetModel data, BuildContext context) {
     return DataRow(
       cells: [
-        DataCell(Text(
-          (data.title == null) ? "" : data.title,
-          overflow: TextOverflow.ellipsis,
-        )),
-        DataCell(Text(
-          (data.categories == null) ? "" : data.categories,
-          overflow: TextOverflow.ellipsis,
-        )),
-        DataCell(Text(
-          (data.slug == null) ? "" : data.slug,
-          overflow: TextOverflow.ellipsis,
-        )),
-        DataCell(Text(
-          (data.description == null) ? "" : data.description,
-          overflow: TextOverflow.ellipsis,
-        )),
-        DataCell(
-          Text("Ubah"),
-          onTap: (() {
-            navigateModalEdit(context, data.id.toString());
-          }),
-        )
+        DataCell(Text((data.title == null) ? "" : data.title)),
+        DataCell(Text((data.image == null) ? "" : data.image)),
+        DataCell(Text((data.file == null) ? "" : data.file)),
+        // DataCell(
+        //   Text("Ubah"),
+        //   onTap: (() {
+        //     navigateModalEdit(context, data.id.toString());
+        //   }),
+        // )
       ],
     );
   }
@@ -208,7 +193,7 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
         barrierColor: Colors.black.withOpacity(0.5),
         transitionDuration: Duration(milliseconds: 300),
         opaque: false,
-        pageBuilder: (_, __, ___) => ArticlesEditModal(article_id: dataid),
+        pageBuilder: (_, __, ___) => CategoriesEditModal(categories_id: dataid),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = Offset(0.0, 1.0);
           const end = Offset.zero;
@@ -229,7 +214,7 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
     )
         .then((value) {
       setState(() {
-        categoriesList();
+        asetList();
       });
     });
   }

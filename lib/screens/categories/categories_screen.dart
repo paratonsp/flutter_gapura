@@ -50,7 +50,6 @@ class _StateCategoriesScreen extends State<CategoriesScreen> {
                   child: Column(
                     children: [
                       subHeader(context),
-                      // SizedBox(height: defaultPadding),
                       (isLoading)
                           ? Center(
                               child: LinearProgressIndicator(),
@@ -83,32 +82,39 @@ class _StateCategoriesScreen extends State<CategoriesScreen> {
               ),
               icon: Icon(Icons.add),
               label: Text("Tambah"),
-              onPressed: () {
-                Navigator.of(context).push(
+              onPressed: () async {
+                await Navigator.of(context)
+                    .push(
                   PageRouteBuilder(
-                      barrierDismissible: true,
-                      barrierColor: Colors.black.withOpacity(0.5),
-                      transitionDuration: Duration(milliseconds: 300),
-                      opaque: false,
-                      pageBuilder: (_, __, ___) => CategoriesAddModal(),
-                      transitionsBuilder:
-                          (context, animation, secondaryAnimation, child) {
-                        const begin = Offset(0.0, 1.0);
-                        const end = Offset.zero;
-                        const curve = Curves.ease;
+                    barrierDismissible: true,
+                    barrierColor: Colors.black.withOpacity(0.5),
+                    transitionDuration: Duration(milliseconds: 300),
+                    opaque: false,
+                    pageBuilder: (_, __, ___) => CategoriesAddModal(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      const begin = Offset(0.0, 1.0);
+                      const end = Offset.zero;
+                      const curve = Curves.ease;
 
-                        final tween = Tween(begin: begin, end: end);
-                        final curvedAnimation = CurvedAnimation(
-                          parent: animation,
-                          curve: curve,
-                        );
+                      final tween = Tween(begin: begin, end: end);
+                      final curvedAnimation = CurvedAnimation(
+                        parent: animation,
+                        curve: curve,
+                      );
 
-                        return SlideTransition(
-                          position: tween.animate(curvedAnimation),
-                          child: child,
-                        );
-                      }),
-                );
+                      return SlideTransition(
+                        position: tween.animate(curvedAnimation),
+                        child: child,
+                      );
+                    },
+                  ),
+                )
+                    .then((value) {
+                  setState(() {
+                    categoriesList();
+                  });
+                });
               },
             ),
           ],
@@ -161,44 +167,54 @@ class _StateCategoriesScreen extends State<CategoriesScreen> {
       ),
     );
   }
-}
 
-DataRow recentFileDataRow(CategoriesModel data, BuildContext context) {
-  return DataRow(
-    cells: [
-      DataCell(Text((data.title == null) ? "" : data.title)),
-      DataCell(Text((data.subtitle == null) ? "" : data.subtitle)),
-      DataCell(Text((data.description == null) ? "" : data.description)),
-      DataCell(
-        Text("Ubah"),
-        onTap: (() {
-          Navigator.of(context).push(
-            PageRouteBuilder(
-                barrierDismissible: true,
-                barrierColor: Colors.black.withOpacity(0.5),
-                transitionDuration: Duration(milliseconds: 300),
-                opaque: false,
-                pageBuilder: (_, __, ___) => CategoriesEditModal(),
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                  const begin = Offset(0.0, 1.0);
-                  const end = Offset.zero;
-                  const curve = Curves.ease;
+  DataRow recentFileDataRow(CategoriesModel data, BuildContext context) {
+    return DataRow(
+      cells: [
+        DataCell(Text((data.title == null) ? "" : data.title)),
+        DataCell(Text((data.subtitle == null) ? "" : data.subtitle)),
+        DataCell(Text((data.description == null) ? "" : data.description)),
+        DataCell(
+          Text("Ubah"),
+          onTap: (() {
+            navigateModalEdit(context, data.id.toString());
+          }),
+        )
+      ],
+    );
+  }
 
-                  final tween = Tween(begin: begin, end: end);
-                  final curvedAnimation = CurvedAnimation(
-                    parent: animation,
-                    curve: curve,
-                  );
+  navigateModalEdit(BuildContext context, String dataid) async {
+    await Navigator.of(context)
+        .push(
+      PageRouteBuilder(
+        barrierDismissible: true,
+        barrierColor: Colors.black.withOpacity(0.5),
+        transitionDuration: Duration(milliseconds: 300),
+        opaque: false,
+        pageBuilder: (_, __, ___) => CategoriesEditModal(categories_id: dataid),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(0.0, 1.0);
+          const end = Offset.zero;
+          const curve = Curves.ease;
 
-                  return SlideTransition(
-                    position: tween.animate(curvedAnimation),
-                    child: child,
-                  );
-                }),
+          final tween = Tween(begin: begin, end: end);
+          final curvedAnimation = CurvedAnimation(
+            parent: animation,
+            curve: curve,
           );
-        }),
-      )
-    ],
-  );
+
+          return SlideTransition(
+            position: tween.animate(curvedAnimation),
+            child: child,
+          );
+        },
+      ),
+    )
+        .then((value) {
+      setState(() {
+        categoriesList();
+      });
+    });
+  }
 }

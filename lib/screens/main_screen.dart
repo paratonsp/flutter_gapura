@@ -1,11 +1,12 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gapura/constants.dart';
 import 'package:gapura/controllers/MenuController.dart';
 import 'package:gapura/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:gapura/screens/about/about_screen.dart';
-import 'package:gapura/screens/about/aset_merk_dart.dart';
+import 'package:gapura/screens/about/aset_merk_screen.dart';
 import 'package:gapura/screens/articles/articles_screen.dart';
 import 'package:gapura/screens/categories/categories_screen.dart';
 import 'package:gapura/screens/dashboard_screen.dart';
@@ -14,7 +15,8 @@ import 'package:gapura/screens/home/landing_screen.dart';
 import 'package:gapura/screens/home/widget_1_screen.dart';
 import 'package:gapura/screens/home/widget_2_screen.dart';
 import 'package:gapura/screens/home/widget_3_screen.dart';
-import 'package:gapura/screens/template/template_screen.dart';
+import 'package:gapura/screens/list_aset/list_aset_screen.dart';
+import 'package:gapura/screens/user/user_screen.dart';
 import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
@@ -23,17 +25,17 @@ class MainScreen extends StatefulWidget {
 }
 
 enum Section {
-  Dashboard,
   Landing,
   Widget1,
   Widget2,
   Widget3,
   About,
   BrandAssets,
+  ListAset,
   Categories,
   Articles,
   Footer,
-  Template
+  User,
 }
 var section;
 
@@ -43,10 +45,6 @@ class _MainScreenState extends State<MainScreen> {
     Widget switchBody;
 
     switch (section) {
-      case Section.Dashboard:
-        switchBody = DashboardScreen();
-        break;
-
       case Section.Landing:
         switchBody = LandingScreen();
         break;
@@ -70,6 +68,9 @@ class _MainScreenState extends State<MainScreen> {
       case Section.BrandAssets:
         switchBody = AsetMerekScreen();
         break;
+      case Section.ListAset:
+        switchBody = ListAsetScreen();
+        break;
 
       case Section.Categories:
         switchBody = CategoriesScreen();
@@ -83,8 +84,8 @@ class _MainScreenState extends State<MainScreen> {
         switchBody = FooterScreen();
         break;
 
-      case Section.Template:
-        switchBody = TemplateScreen();
+      case Section.User:
+        switchBody = UserScreen();
         break;
     }
     return Scaffold(
@@ -110,19 +111,15 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget sideMenu(BuildContext context) {
     return Drawer(
+      elevation: 0.0,
       child: ListView(
         children: [
           DrawerHeader(
-            child: Image.asset("assets/images/logo.png"),
-          ),
-          ListTile(
-            onTap: () {
-              setState(() => section = Section.Dashboard);
-            },
-            leading: Icon(Icons.circle),
-            title: Text(
-              "Beranda",
-              style: TextStyle(color: fontColor),
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: SvgPicture.asset(
+                "assets/images/gold_logo.svg",
+              ),
             ),
           ),
           ExpansionTile(
@@ -147,7 +144,7 @@ class _MainScreenState extends State<MainScreen> {
                   setState(() => section = Section.Widget1);
                 },
                 title: Text(
-                  "Widget Edisi Terbaru",
+                  "Section 1",
                   style: TextStyle(color: fontColor),
                 ),
               ),
@@ -156,7 +153,7 @@ class _MainScreenState extends State<MainScreen> {
                   setState(() => section = Section.Widget2);
                 },
                 title: Text(
-                  "Widget Baca Gapura Jadi Tahu",
+                  "Section 2",
                   style: TextStyle(color: fontColor),
                 ),
               ),
@@ -165,7 +162,7 @@ class _MainScreenState extends State<MainScreen> {
                   setState(() => section = Section.Widget3);
                 },
                 title: Text(
-                  "Widget Edisi Lama",
+                  "Section 3",
                   style: TextStyle(color: fontColor),
                 ),
               ),
@@ -194,6 +191,15 @@ class _MainScreenState extends State<MainScreen> {
                 },
                 title: Text(
                   "Aset Merek",
+                  style: TextStyle(color: fontColor),
+                ),
+              ),
+              ListTile(
+                onTap: () {
+                  setState(() => section = Section.ListAset);
+                },
+                title: Text(
+                  "List Aset",
                   style: TextStyle(color: fontColor),
                 ),
               ),
@@ -230,20 +236,12 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
           ListTile(
-            onTap: () {},
-            leading: Icon(Icons.circle),
-            title: Text(
-              "Manajemen Pengguna",
-              style: TextStyle(color: fontColor),
-            ),
-          ),
-          ListTile(
             onTap: () {
-              setState(() => section = Section.Template);
+              setState(() => section = Section.User);
             },
             leading: Icon(Icons.circle),
             title: Text(
-              "Template",
+              "Manajemen Pengguna",
               style: TextStyle(color: fontColor),
             ),
           ),
