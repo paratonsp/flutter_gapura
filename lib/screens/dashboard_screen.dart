@@ -1,7 +1,6 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:gapura/screens/components/header.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -9,18 +8,9 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _StateDashboardScreen extends State<DashboardScreen> {
-  String token;
   @override
   void initState() {
     super.initState();
-    getPrefs();
-  }
-
-  getPrefs() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      token = prefs.getString('token');
-    });
   }
 
   @override
