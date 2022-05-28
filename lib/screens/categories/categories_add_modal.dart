@@ -163,7 +163,7 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
                   Text(
                     "Tambah Kategori",
                     style: TextStyle(
-                        color: secondaryColor,
+                        color: fontColor,
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
@@ -250,7 +250,7 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
-          border: Border.all(color: secondaryColor)),
+          border: Border.all(color: fontColor)),
       child: Center(
         child: imageBytes == null
             ? Column(
@@ -260,15 +260,15 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
                     onPressed: () {
                       pickImage();
                     },
-                    icon: Icon(Icons.upload, color: secondaryColor),
+                    icon: Icon(Icons.upload, color: fontColor),
                     label: Text(
                       "Unggah Ilustrasi",
-                      style: TextStyle(color: secondaryColor),
+                      style: TextStyle(color: fontColor),
                     ),
                   ),
                   Text(
                     "Upload max: 2MB",
-                    style: TextStyle(color: secondaryColor),
+                    style: TextStyle(color: fontColor),
                   ),
                 ],
               )
@@ -307,7 +307,7 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
-          border: Border.all(color: secondaryColor)),
+          border: Border.all(color: fontColor)),
       child: Center(
         child: imageBackgroundBytes == null
             ? Column(
@@ -317,15 +317,15 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
                     onPressed: () {
                       pickBackgroundImage();
                     },
-                    icon: Icon(Icons.upload, color: secondaryColor),
+                    icon: Icon(Icons.upload, color: fontColor),
                     label: Text(
                       "Unggah Background",
-                      style: TextStyle(color: secondaryColor),
+                      style: TextStyle(color: fontColor),
                     ),
                   ),
                   Text(
                     "Upload max: 2MB",
-                    style: TextStyle(color: secondaryColor),
+                    style: TextStyle(color: fontColor),
                   ),
                 ],
               )
@@ -361,22 +361,22 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
         children: [
           Text(
             "Judul",
-            style: TextStyle(color: secondaryColor, fontSize: 16),
+            style: TextStyle(color: fontColor, fontSize: 16),
           ),
           SizedBox(height: 10),
           SizedBox(
             width: double.infinity,
             child: TextField(
               controller: titleController,
-              style: TextStyle(color: secondaryColor),
+              style: TextStyle(color: fontColor),
               decoration: InputDecoration(
-                fillColor: secondaryColor,
+                fillColor: fontColor,
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: primaryColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: secondaryColor),
+                  borderSide: BorderSide(color: fontColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -394,22 +394,22 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
         children: [
           Text(
             "Sub Judul",
-            style: TextStyle(color: secondaryColor, fontSize: 16),
+            style: TextStyle(color: fontColor, fontSize: 16),
           ),
           SizedBox(height: 10),
           SizedBox(
             width: double.infinity,
             child: TextField(
               controller: subtitleController,
-              style: TextStyle(color: secondaryColor),
+              style: TextStyle(color: fontColor),
               decoration: InputDecoration(
-                fillColor: secondaryColor,
+                fillColor: fontColor,
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: primaryColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: secondaryColor),
+                  borderSide: BorderSide(color: fontColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -427,7 +427,7 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
         children: [
           Text(
             "Deskripsi",
-            style: TextStyle(color: secondaryColor, fontSize: 16),
+            style: TextStyle(color: fontColor, fontSize: 16),
           ),
           SizedBox(height: 10),
           SizedBox(
@@ -435,15 +435,15 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
             child: TextField(
               controller: descriptionController,
               maxLines: 4,
-              style: TextStyle(color: secondaryColor),
+              style: TextStyle(color: fontColor),
               decoration: InputDecoration(
-                fillColor: secondaryColor,
+                fillColor: fontColor,
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: primaryColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: secondaryColor),
+                  borderSide: BorderSide(color: fontColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),

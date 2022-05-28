@@ -167,7 +167,7 @@ class _ListAsetAddModal extends State<ListAsetAddModal> {
                   Text(
                     "Tambah Aset",
                     style: TextStyle(
-                        color: secondaryColor,
+                        color: fontColor,
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
@@ -252,7 +252,7 @@ class _ListAsetAddModal extends State<ListAsetAddModal> {
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
-          border: Border.all(color: secondaryColor)),
+          border: Border.all(color: fontColor)),
       child: Center(
         child: imageBytes == null
             ? Column(
@@ -262,15 +262,15 @@ class _ListAsetAddModal extends State<ListAsetAddModal> {
                     onPressed: () {
                       pickImage();
                     },
-                    icon: Icon(Icons.upload, color: secondaryColor),
+                    icon: Icon(Icons.upload, color: fontColor),
                     label: Text(
                       "Unggah Gambar",
-                      style: TextStyle(color: secondaryColor),
+                      style: TextStyle(color: fontColor),
                     ),
                   ),
                   Text(
                     "Upload max: 2MB",
-                    style: TextStyle(color: secondaryColor),
+                    style: TextStyle(color: fontColor),
                   ),
                 ],
               )
@@ -283,7 +283,7 @@ class _ListAsetAddModal extends State<ListAsetAddModal> {
                       child: Icon(
                         Icons.remove_circle,
                         size: 30,
-                        color: Colors.red,
+                        color: fontColor,
                       ),
                       onTap: () {
                         setState(() {
@@ -309,7 +309,7 @@ class _ListAsetAddModal extends State<ListAsetAddModal> {
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
-          border: Border.all(color: secondaryColor)),
+          border: Border.all(color: fontColor)),
       child: Center(
         child: imageBackgroundName == null
             ? Column(
@@ -319,15 +319,15 @@ class _ListAsetAddModal extends State<ListAsetAddModal> {
                     onPressed: () {
                       pickBackgroundImage();
                     },
-                    icon: Icon(Icons.upload, color: secondaryColor),
+                    icon: Icon(Icons.upload, color: fontColor),
                     label: Text(
                       "Unggah File",
-                      style: TextStyle(color: secondaryColor),
+                      style: TextStyle(color: fontColor),
                     ),
                   ),
                   Text(
                     "Upload max: 2MB",
-                    style: TextStyle(color: secondaryColor),
+                    style: TextStyle(color: fontColor),
                   ),
                 ],
               )
@@ -344,7 +344,7 @@ class _ListAsetAddModal extends State<ListAsetAddModal> {
                       child: Icon(
                         Icons.remove_circle,
                         size: 30,
-                        color: Colors.red,
+                        color: fontColor,
                       ),
                       onTap: () {
                         setState(() {
@@ -368,22 +368,22 @@ class _ListAsetAddModal extends State<ListAsetAddModal> {
         children: [
           Text(
             "Judul",
-            style: TextStyle(color: secondaryColor, fontSize: 16),
+            style: TextStyle(color: fontColor, fontSize: 16),
           ),
           SizedBox(height: 10),
           SizedBox(
             width: double.infinity,
             child: TextField(
               controller: titleController,
-              style: TextStyle(color: secondaryColor),
+              style: TextStyle(color: fontColor),
               decoration: InputDecoration(
-                fillColor: secondaryColor,
+                fillColor: fontColor,
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: primaryColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: secondaryColor),
+                  borderSide: BorderSide(color: fontColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -398,7 +398,7 @@ class _ListAsetAddModal extends State<ListAsetAddModal> {
     return Container(
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
-        color: secondaryColor,
+        color: primaryColor,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
@@ -406,7 +406,7 @@ class _ListAsetAddModal extends State<ListAsetAddModal> {
         children: [
           Text(
             "Deskripsi",
-            style: Theme.of(context).textTheme.subtitle1,
+            style: TextStyle(fontSize: 16, color: bgColor),
           ),
           SizedBox(height: 10),
           HtmlEditor(
@@ -417,6 +417,8 @@ class _ListAsetAddModal extends State<ListAsetAddModal> {
               initialText: "",
             ),
             htmlToolbarOptions: HtmlToolbarOptions(
+              buttonColor: bgColor,
+              textStyle: TextStyle(color: bgColor),
               defaultToolbarButtons: [
                 StyleButtons(),
                 FontSettingButtons(
@@ -443,7 +445,6 @@ class _ListAsetAddModal extends State<ListAsetAddModal> {
                   paste: false,
                 ),
               ],
-
               toolbarPosition: ToolbarPosition.aboveEditor, //by default
               toolbarType: ToolbarType.nativeScrollable, //by default
               onButtonPressed:
@@ -463,8 +464,6 @@ class _ListAsetAddModal extends State<ListAsetAddModal> {
                 return true;
               },
             ),
-            otherOptions:
-                OtherOptions(height: MediaQuery.of(context).size.height / 2),
             plugins: [
               SummernoteAtMention(
                   getSuggestionsMobile: (String value) {

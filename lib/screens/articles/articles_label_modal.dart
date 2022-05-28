@@ -123,7 +123,7 @@ class _ArticlesLabelModal extends State<ArticlesLabelModal> {
     return Container(
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
-        color: secondaryColor,
+        color: primaryColor,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
@@ -131,7 +131,7 @@ class _ArticlesLabelModal extends State<ArticlesLabelModal> {
         children: [
           Text(
             "Label",
-            style: Theme.of(context).textTheme.subtitle1,
+            style: TextStyle(fontSize: 16, color: bgColor),
           ),
           SizedBox(height: 10),
           HtmlEditor(
@@ -142,6 +142,8 @@ class _ArticlesLabelModal extends State<ArticlesLabelModal> {
               darkMode: false,
             ),
             htmlToolbarOptions: HtmlToolbarOptions(
+              buttonColor: bgColor,
+              textStyle: TextStyle(color: bgColor),
               defaultToolbarButtons: [
                 StyleButtons(),
                 FontSettingButtons(

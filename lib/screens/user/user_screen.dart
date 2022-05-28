@@ -133,7 +133,14 @@ class _StateUserScreen extends State<UserScreen> {
     return Container(
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
-        color: secondaryColor,
+        boxShadow: [
+          BoxShadow(
+            color: fontColor.withOpacity(0.3),
+            spreadRadius: 1,
+            blurRadius: 1,
+          ),
+        ],
+        color: greyColor,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
@@ -141,11 +148,14 @@ class _StateUserScreen extends State<UserScreen> {
         children: [
           Text(
             "List Pengguna",
-            style: Theme.of(context).textTheme.subtitle1,
+            style: TextStyle(fontSize: 16, color: fontColor),
           ),
           SizedBox(
             width: double.infinity,
             child: DataTable2(
+              border: TableBorder(
+                  horizontalInside: BorderSide(color: fontColor, width: 1)),
+              bottomMargin: 10,
               columnSpacing: defaultPadding,
               minWidth: 600,
               columns: [

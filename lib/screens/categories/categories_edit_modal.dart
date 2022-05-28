@@ -215,7 +215,7 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
                         Text(
                           "Ubah Kategori",
                           style: TextStyle(
-                              color: secondaryColor,
+                              color: fontColor,
                               fontSize: 20,
                               fontWeight: FontWeight.bold),
                         ),
@@ -323,7 +323,7 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
-          border: Border.all(color: secondaryColor)),
+          border: Border.all(color: fontColor)),
       child: Center(
         child: imageUrl != null
             ? Stack(
@@ -363,15 +363,15 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
                         onPressed: () {
                           pickImage();
                         },
-                        icon: Icon(Icons.upload, color: secondaryColor),
+                        icon: Icon(Icons.upload, color: fontColor),
                         label: Text(
                           "Unggah Ilustrasi",
-                          style: TextStyle(color: secondaryColor),
+                          style: TextStyle(color: fontColor),
                         ),
                       ),
                       Text(
                         "Upload max: 2MB",
-                        style: TextStyle(color: secondaryColor),
+                        style: TextStyle(color: fontColor),
                       ),
                     ],
                   )
@@ -410,7 +410,7 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
-          border: Border.all(color: secondaryColor)),
+          border: Border.all(color: fontColor)),
       child: Center(
         child: imageBackroundUrl != null
             ? Stack(
@@ -450,15 +450,15 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
                         onPressed: () {
                           pickBackgroundImage();
                         },
-                        icon: Icon(Icons.upload, color: secondaryColor),
+                        icon: Icon(Icons.upload, color: fontColor),
                         label: Text(
                           "Unggah Background",
-                          style: TextStyle(color: secondaryColor),
+                          style: TextStyle(color: fontColor),
                         ),
                       ),
                       Text(
                         "Upload max: 2MB",
-                        style: TextStyle(color: secondaryColor),
+                        style: TextStyle(color: fontColor),
                       ),
                     ],
                   )
@@ -494,22 +494,22 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
         children: [
           Text(
             "Judul",
-            style: TextStyle(color: secondaryColor, fontSize: 16),
+            style: TextStyle(color: fontColor, fontSize: 16),
           ),
           SizedBox(height: 10),
           SizedBox(
             width: double.infinity,
             child: TextField(
               controller: titleController,
-              style: TextStyle(color: secondaryColor),
+              style: TextStyle(color: fontColor),
               decoration: InputDecoration(
-                fillColor: secondaryColor,
+                fillColor: fontColor,
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: primaryColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: secondaryColor),
+                  borderSide: BorderSide(color: fontColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -527,22 +527,22 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
         children: [
           Text(
             "Sub Judul",
-            style: TextStyle(color: secondaryColor, fontSize: 16),
+            style: TextStyle(color: fontColor, fontSize: 16),
           ),
           SizedBox(height: 10),
           SizedBox(
             width: double.infinity,
             child: TextField(
               controller: subtitleController,
-              style: TextStyle(color: secondaryColor),
+              style: TextStyle(color: fontColor),
               decoration: InputDecoration(
-                fillColor: secondaryColor,
+                fillColor: fontColor,
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: primaryColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: secondaryColor),
+                  borderSide: BorderSide(color: fontColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -560,7 +560,7 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
         children: [
           Text(
             "Deskripsi",
-            style: TextStyle(color: secondaryColor, fontSize: 16),
+            style: TextStyle(color: fontColor, fontSize: 16),
           ),
           SizedBox(height: 10),
           SizedBox(
@@ -568,15 +568,15 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
             child: TextField(
               controller: descriptionController,
               maxLines: 4,
-              style: TextStyle(color: secondaryColor),
+              style: TextStyle(color: fontColor),
               decoration: InputDecoration(
-                fillColor: secondaryColor,
+                fillColor: fontColor,
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: primaryColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: secondaryColor),
+                  borderSide: BorderSide(color: fontColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),

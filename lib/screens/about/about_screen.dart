@@ -151,8 +151,8 @@ class _StateAboutScreen extends State<AboutScreen> {
                               vertical: defaultPadding,
                             ),
                           ),
-                          child: Text("Simpan",
-                              style: TextStyle(color: fontColor)),
+                          child:
+                              Text("Simpan", style: TextStyle(color: bgColor)),
                           onPressed: () {
                             patchData();
                           },
@@ -176,7 +176,7 @@ class _StateAboutScreen extends State<AboutScreen> {
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
-          border: Border.all(color: secondaryColor)),
+          border: Border.all(color: fontColor)),
       child: Center(
         child: imageUrl != null
             ? Stack(

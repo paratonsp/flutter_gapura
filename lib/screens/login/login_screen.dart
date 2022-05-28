@@ -74,7 +74,7 @@ class _StateLoginScreen extends State<LoginScreen> {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => ToDashboard()));
     } else {
-      notif("Gagal Masuk: " + jsonDecode(response.body)["error"][0]["msg"]);
+      notif(jsonDecode(response.body)["errors"][0]["msg"]);
     }
   }
 
@@ -86,20 +86,19 @@ class _StateLoginScreen extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: bgColor,
       body: Center(
         child: Container(
           width: MediaQuery.of(context).size.width / 1.5,
           height: MediaQuery.of(context).size.height / 1.5,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: bgColor,
             borderRadius: const BorderRadius.all(Radius.circular(10)),
             boxShadow: [
               BoxShadow(
-                color: fontColor.withOpacity(0.2),
+                color: fontColor.withOpacity(0.3),
                 spreadRadius: 1,
                 blurRadius: 1,
-                offset: Offset(0, 1),
               ),
             ],
           ),
@@ -251,6 +250,7 @@ class _StateLoginScreen extends State<LoginScreen> {
                     ),
                     label: Text("Masuk"),
                     onPressed: () {
+                      notif("Loading");
                       getData();
                     },
                   ),

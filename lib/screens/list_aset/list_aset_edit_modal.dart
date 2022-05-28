@@ -220,9 +220,9 @@ class _ListAsetEditModal extends State<ListAsetEditModal> {
                     Row(
                       children: [
                         Text(
-                          "Tambah Aset",
+                          "Ubah Aset",
                           style: TextStyle(
-                              color: secondaryColor,
+                              color: fontColor,
                               fontSize: 20,
                               fontWeight: FontWeight.bold),
                         ),
@@ -328,7 +328,7 @@ class _ListAsetEditModal extends State<ListAsetEditModal> {
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
-          border: Border.all(color: secondaryColor)),
+          border: Border.all(color: fontColor)),
       child: Center(
         child: imageUrl != null
             ? Stack(
@@ -368,15 +368,15 @@ class _ListAsetEditModal extends State<ListAsetEditModal> {
                         onPressed: () {
                           pickImage();
                         },
-                        icon: Icon(Icons.upload, color: secondaryColor),
+                        icon: Icon(Icons.upload, color: fontColor),
                         label: Text(
                           "Unggah Ilustrasi",
-                          style: TextStyle(color: secondaryColor),
+                          style: TextStyle(color: fontColor),
                         ),
                       ),
                       Text(
                         "Upload max: 2MB",
-                        style: TextStyle(color: secondaryColor),
+                        style: TextStyle(color: fontColor),
                       ),
                     ],
                   )
@@ -415,7 +415,7 @@ class _ListAsetEditModal extends State<ListAsetEditModal> {
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
-          border: Border.all(color: secondaryColor)),
+          border: Border.all(color: fontColor)),
       child: Center(
         child: imageBackgroundName == null
             ? Column(
@@ -425,15 +425,15 @@ class _ListAsetEditModal extends State<ListAsetEditModal> {
                     onPressed: () {
                       pickBackgroundImage();
                     },
-                    icon: Icon(Icons.upload, color: secondaryColor),
+                    icon: Icon(Icons.upload, color: fontColor),
                     label: Text(
                       "Unggah File",
-                      style: TextStyle(color: secondaryColor),
+                      style: TextStyle(color: fontColor),
                     ),
                   ),
                   Text(
                     "Upload max: 2MB",
-                    style: TextStyle(color: secondaryColor),
+                    style: TextStyle(color: fontColor),
                   ),
                 ],
               )
@@ -477,22 +477,22 @@ class _ListAsetEditModal extends State<ListAsetEditModal> {
         children: [
           Text(
             "Judul",
-            style: TextStyle(color: secondaryColor, fontSize: 16),
+            style: TextStyle(color: fontColor, fontSize: 16),
           ),
           SizedBox(height: 10),
           SizedBox(
             width: double.infinity,
             child: TextField(
               controller: titleController,
-              style: TextStyle(color: secondaryColor),
+              style: TextStyle(color: fontColor),
               decoration: InputDecoration(
-                fillColor: secondaryColor,
+                fillColor: fontColor,
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: primaryColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: secondaryColor),
+                  borderSide: BorderSide(color: fontColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -507,7 +507,7 @@ class _ListAsetEditModal extends State<ListAsetEditModal> {
     return Container(
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
-        color: secondaryColor,
+        color: primaryColor,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
@@ -515,7 +515,7 @@ class _ListAsetEditModal extends State<ListAsetEditModal> {
         children: [
           Text(
             "Deskripsi",
-            style: Theme.of(context).textTheme.subtitle1,
+            style: TextStyle(fontSize: 16, color: bgColor),
           ),
           SizedBox(height: 10),
           HtmlEditor(
@@ -526,6 +526,8 @@ class _ListAsetEditModal extends State<ListAsetEditModal> {
               initialText: descriptionText,
             ),
             htmlToolbarOptions: HtmlToolbarOptions(
+              buttonColor: bgColor,
+              textStyle: TextStyle(color: bgColor),
               defaultToolbarButtons: [
                 StyleButtons(),
                 FontSettingButtons(
@@ -572,8 +574,6 @@ class _ListAsetEditModal extends State<ListAsetEditModal> {
                 return true;
               },
             ),
-            otherOptions:
-                OtherOptions(height: MediaQuery.of(context).size.height / 2),
             plugins: [
               SummernoteAtMention(
                   getSuggestionsMobile: (String value) {

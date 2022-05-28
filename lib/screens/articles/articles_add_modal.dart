@@ -36,6 +36,9 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
 
   TextEditingController titleController = TextEditingController();
   TextEditingController subtitleController = TextEditingController();
+  TextEditingController tableuController = TextEditingController();
+  TextEditingController tableuHeightController =
+      TextEditingController(text: "400");
   TextEditingController iframeController = TextEditingController();
   HtmlEditorController descriptionController = HtmlEditorController();
 
@@ -158,7 +161,7 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
                         Text(
                           "Tambah Artikel",
                           style: TextStyle(
-                              color: secondaryColor,
+                              color: fontColor,
                               fontSize: 20,
                               fontWeight: FontWeight.bold),
                         ),
@@ -276,6 +279,8 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
                     SizedBox(height: defaultPadding),
                     descriptionBody(context),
                     SizedBox(height: defaultPadding),
+                    tableuBody(context),
+                    SizedBox(height: defaultPadding),
                     iframeBody(context),
                     SizedBox(height: defaultPadding),
                     Padding(
@@ -340,7 +345,7 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
-          border: Border.all(color: secondaryColor)),
+          border: Border.all(color: fontColor)),
       child: Center(
         child: imageBytes == null
             ? Column(
@@ -350,15 +355,15 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
                     onPressed: () {
                       pickImage();
                     },
-                    icon: Icon(Icons.upload, color: secondaryColor),
+                    icon: Icon(Icons.upload, color: fontColor),
                     label: Text(
                       "Unggah Background",
-                      style: TextStyle(color: secondaryColor),
+                      style: TextStyle(color: fontColor),
                     ),
                   ),
                   Text(
                     "Upload max: 2MB",
-                    style: TextStyle(color: secondaryColor),
+                    style: TextStyle(color: fontColor),
                   ),
                 ],
               )
@@ -394,22 +399,22 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
         children: [
           Text(
             "Judul",
-            style: TextStyle(color: secondaryColor, fontSize: 16),
+            style: TextStyle(color: fontColor, fontSize: 16),
           ),
           SizedBox(height: 10),
           SizedBox(
             width: double.infinity,
             child: TextField(
               controller: titleController,
-              style: TextStyle(color: secondaryColor),
+              style: TextStyle(color: fontColor),
               decoration: InputDecoration(
-                fillColor: secondaryColor,
+                fillColor: fontColor,
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: primaryColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: secondaryColor),
+                  borderSide: BorderSide(color: fontColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -427,7 +432,7 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
         children: [
           Text(
             "Kategori",
-            style: TextStyle(color: secondaryColor, fontSize: 16),
+            style: TextStyle(color: fontColor, fontSize: 16),
           ),
           SizedBox(height: 10),
           SizedBox(
@@ -446,17 +451,111 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
               },
               value: categoriesPicked,
               decoration: InputDecoration(
-                fillColor: secondaryColor,
+                fillColor: fontColor,
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: primaryColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: secondaryColor),
+                  borderSide: BorderSide(color: fontColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  tableuBody(BuildContext context) {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Tableu",
+                    style: TextStyle(color: fontColor, fontSize: 16),
+                  ),
+                  SizedBox(height: defaultPadding),
+                  TextField(
+                    controller: tableuController,
+                    style: TextStyle(color: fontColor),
+                    decoration: InputDecoration(
+                      fillColor: fontColor,
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: primaryColor),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: fontColor),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                ],
+              )),
+              SizedBox(width: defaultPadding),
+              SizedBox(
+                width: 150,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Tinggi Tableu",
+                      style: TextStyle(color: fontColor, fontSize: 16),
+                    ),
+                    SizedBox(height: defaultPadding),
+                    TextField(
+                      controller: tableuHeightController,
+                      style: TextStyle(color: fontColor),
+                      decoration: InputDecoration(
+                        fillColor: fontColor,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: primaryColor),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: fontColor),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: defaultPadding),
+          ElevatedButton(
+            style: TextButton.styleFrom(
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10), // <-- Radius
+              ),
+              backgroundColor: primaryColor,
+              padding: EdgeInsets.symmetric(
+                horizontal: defaultPadding * 1.5,
+                vertical: defaultPadding,
+              ),
+            ),
+            child: Text("Masukkan Tableu"),
+            onPressed: () {
+              // uploadData();
+              setState(() {
+                descriptionController.insertHtml('<iframe src=' +
+                    tableuController.text +
+                    '?:showVizHome=no&:embed=true" width="100%" height="' +
+                    tableuHeightController.text +
+                    '"></iframe>');
+              });
+            },
           ),
         ],
       ),
@@ -470,22 +569,22 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
         children: [
           Text(
             "Embed",
-            style: TextStyle(color: secondaryColor, fontSize: 16),
+            style: TextStyle(color: fontColor, fontSize: 16),
           ),
           SizedBox(height: defaultPadding),
           SizedBox(
             width: double.infinity,
             child: TextField(
               controller: iframeController,
-              style: TextStyle(color: secondaryColor),
+              style: TextStyle(color: fontColor),
               decoration: InputDecoration(
-                fillColor: secondaryColor,
+                fillColor: fontColor,
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: primaryColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: secondaryColor),
+                  borderSide: BorderSide(color: fontColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -521,7 +620,7 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
     return Container(
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
-        color: secondaryColor,
+        color: primaryColor,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
@@ -529,7 +628,7 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
         children: [
           Text(
             "Deskripsi",
-            style: Theme.of(context).textTheme.subtitle1,
+            style: TextStyle(fontSize: 16, color: bgColor),
           ),
           SizedBox(height: 10),
           HtmlEditor(
@@ -540,6 +639,8 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
               initialText: "",
             ),
             htmlToolbarOptions: HtmlToolbarOptions(
+              buttonColor: bgColor,
+              textStyle: TextStyle(color: bgColor),
               defaultToolbarButtons: [
                 StyleButtons(),
                 FontSettingButtons(
@@ -586,8 +687,6 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
                 return true;
               },
             ),
-            otherOptions:
-                OtherOptions(height: MediaQuery.of(context).size.height / 2),
             plugins: [
               SummernoteAtMention(
                   getSuggestionsMobile: (String value) {

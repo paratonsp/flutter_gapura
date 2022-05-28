@@ -1,22 +1,37 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:gapura/models/articles_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ListArticlesController {
-  static load() async {
+  static load(
+    double page,
+    String search,
+    String categories_id,
+  ) async {
     String url = dotenv.env['BASE_URL'] + "api/v1/article";
 
-    // Uri parseUrl = Uri.parse(url).replace(queryParameters: {'sort': "ASC"});
-    Uri parseUrl = Uri.parse(url);
+    Uri parseUrl = Uri.parse(url).replace(queryParameters: {
+      'page': page.toString(),
+      "search": search,
+      "categories_id": categories_id,
+      "sortBy": "id",
+      "sort": "DESC",
+    });
 
     final response = await http.get(parseUrl);
 
     List<ArticlesModel> list = [];
-    for (var data in jsonDecode(response.body)['data'] as List) {
-      list.add(ArticlesModel.fromJson(data));
+    if (jsonDecode(response.body)["status"] == 200) {
+      for (var data in jsonDecode(response.body)['data'] as List) {
+        list.add(ArticlesModel.fromJson(data));
+      }
+      return list;
+    } else {
+      return null;
     }
-    return list;
   }
 }
 

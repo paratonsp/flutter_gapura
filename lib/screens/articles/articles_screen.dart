@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:gapura/constants.dart';
 import 'package:gapura/controllers/articles_controller.dart';
@@ -7,6 +10,8 @@ import 'package:gapura/models/articles_model.dart';
 import 'package:gapura/screens/articles/articles_add_modal.dart';
 import 'package:gapura/screens/articles/articles_edit_modal.dart';
 import 'package:gapura/screens/components/header.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
 class ArticlesScreen extends StatefulWidget {
   @override
@@ -15,21 +20,55 @@ class ArticlesScreen extends StatefulWidget {
 
 class _StateArticlesScreen extends State<ArticlesScreen> {
   List<ArticlesModel> _listArticles;
+  List _listCategories;
+  String categoriesPicked;
+  double page = 1;
+
   bool isLoading = true;
+  bool isLoadingCategories = true;
+  bool kosong = false;
+
+  TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    categoriesList();
+    _articlesList();
+    getCategories();
   }
 
-  categoriesList() async {
-    await ListArticlesController.load().then((value) {
+  _articlesList() async {
+    await ListArticlesController.load(
+            page, searchController.text, categoriesPicked)
+        .then(
+      (value) {
+        if (value != null) {
+          setState(() {
+            _listArticles = value;
+            isLoading = false;
+            kosong = false;
+          });
+        } else {
+          setState(() {
+            kosong = true;
+          });
+        }
+      },
+    );
+  }
+
+  getCategories() async {
+    String url = dotenv.env['BASE_URL'] + "api/v1/categories";
+    var uri = Uri.parse(url);
+
+    var response = await http.get(uri);
+    var decodeJson = json.decode(response.body)["data"];
+    if (jsonDecode(response.body)["error"] == false) {
       setState(() {
-        _listArticles = value;
-        isLoading = false;
+        _listCategories = decodeJson;
+        isLoadingCategories = false;
       });
-    });
+    }
   }
 
   @override
@@ -50,7 +89,7 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
                   child: Column(
                     children: [
                       subHeader(context),
-                      (isLoading)
+                      (isLoading || isLoadingCategories)
                           ? Center(
                               child: LinearProgressIndicator(),
                             )
@@ -116,7 +155,7 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
                 )
                     .then((value) {
                   setState(() {
-                    categoriesList();
+                    _articlesList();
                   });
                 });
               },
@@ -132,44 +171,190 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
     return Container(
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
-        color: secondaryColor,
+        boxShadow: [
+          BoxShadow(
+            color: fontColor.withOpacity(0.3),
+            spreadRadius: 1,
+            blurRadius: 1,
+          ),
+        ],
+        color: greyColor,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "List Artikel",
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: DataTable2(
-              columnSpacing: defaultPadding,
-              minWidth: 600,
-              columns: [
-                DataColumn(
-                  label: Text("Judul"),
-                ),
-                DataColumn(
-                  label: Text("Kategori"),
-                ),
-                DataColumn(
-                  label: Text("Slug"),
-                ),
-                DataColumn(
-                  label: Text("Deskripsi"),
-                ),
-                DataColumn(
-                  label: Text("Aksi"),
-                ),
-              ],
-              rows: List.generate(
-                _listArticles.length,
-                (index) => recentFileDataRow(_listArticles[index], context),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "List Aset",
+                style: TextStyle(fontSize: 16, color: fontColor),
               ),
-            ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 8,
+                    child: TextField(
+                      controller: searchController,
+                      style: TextStyle(color: fontColor),
+                      onChanged: (value) {
+                        page = 1;
+                        _articlesList();
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Cari",
+                        hintStyle: TextStyle(color: fontColor),
+                        fillColor: fontColor,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: primaryColor),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: fontColor),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 8,
+                    child: Theme(
+                      data: ThemeData.dark().copyWith(
+                        textTheme: GoogleFonts.signikaNegativeTextTheme(
+                                Theme.of(context).textTheme)
+                            .apply(bodyColor: fontColor),
+                        canvasColor: primaryColor,
+                      ),
+                      child: DropdownButtonFormField(
+                        items: _listCategories.map((item) {
+                          return DropdownMenuItem(
+                            child: Text(
+                              item['title'],
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            value: item['id'].toString(),
+                          );
+                        }).toList(),
+                        onChanged: (newVal) {
+                          setState(() {
+                            categoriesPicked = newVal;
+                            page = 1;
+                            _articlesList();
+                          });
+                        },
+                        value: categoriesPicked,
+                        decoration: InputDecoration(
+                          suffixIconColor: fontColor,
+                          iconColor: fontColor,
+                          hintText: "Semua Kategori",
+                          hintStyle: TextStyle(color: fontColor),
+                          fillColor: fontColor,
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: primaryColor),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: fontColor),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  SizedBox(
+                      child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        categoriesPicked = null;
+                        _articlesList();
+                      });
+                    },
+                    icon: const Icon(Icons.close, color: Colors.black),
+                  ))
+                ],
+              ),
+            ],
           ),
+          Text(
+            "List Aset",
+            style: TextStyle(fontSize: 16, color: fontColor),
+          ),
+          (kosong)
+              ? SizedBox(
+                  width: double.infinity,
+                  child: Center(child: Text("Data Kosong")))
+              : SizedBox(
+                  width: double.infinity,
+                  child: DataTable2(
+                    border: TableBorder(
+                        horizontalInside:
+                            BorderSide(color: fontColor, width: 1)),
+                    bottomMargin: 10,
+                    columnSpacing: defaultPadding,
+                    minWidth: 600,
+                    columns: [
+                      DataColumn(
+                        label: Text("Judul"),
+                      ),
+                      DataColumn(
+                        label: Text("Kategori"),
+                      ),
+                      DataColumn(
+                        label: Text("Slug"),
+                      ),
+                      DataColumn(
+                        label: Text("Deskripsi"),
+                      ),
+                      DataColumn(
+                        label: Text("Aksi"),
+                      ),
+                    ],
+                    rows: List.generate(
+                      _listArticles.length,
+                      (index) =>
+                          recentFileDataRow(_listArticles[index], context),
+                    ),
+                  ),
+                ),
+          SizedBox(
+              width: double.infinity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  (page != 1)
+                      ? IconButton(
+                          onPressed: () {
+                            setState(() {
+                              page = page - 1;
+                              _articlesList();
+                            });
+                          },
+                          icon: Icon(
+                            Icons.arrow_back_ios,
+                            color: fontColor,
+                          ),
+                        )
+                      : SizedBox(),
+                  Text(page.toString()),
+                  SizedBox(width: 5),
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        page = page + 1;
+                        _articlesList();
+                      });
+                    },
+                    icon: Icon(
+                      Icons.arrow_forward_ios,
+                      color: fontColor,
+                    ),
+                  )
+                ],
+              )),
         ],
       ),
     );
@@ -233,7 +418,7 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
     )
         .then((value) {
       setState(() {
-        categoriesList();
+        _articlesList();
       });
     });
   }

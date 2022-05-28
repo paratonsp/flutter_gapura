@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gapura/constants.dart';
 import 'package:gapura/controllers/MenuController.dart';
 import 'package:gapura/responsive.dart';
@@ -40,6 +41,11 @@ enum Section {
 var section;
 
 class _MainScreenState extends State<MainScreen> {
+  notif(String msg) async {
+    Fluttertoast.showToast(
+        msg: msg, webBgColor: "linear-gradient(to right, #F15A24, #F15A24)");
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget switchBody;
@@ -111,7 +117,8 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget sideMenu(BuildContext context) {
     return Drawer(
-      elevation: 0.0,
+      backgroundColor: greyColor,
+      elevation: 1,
       child: ListView(
         children: [
           DrawerHeader(
@@ -132,6 +139,7 @@ class _MainScreenState extends State<MainScreen> {
             children: [
               ListTile(
                 onTap: () {
+                  notif("Loading");
                   setState(() => section = Section.Landing);
                 },
                 title: Text(
@@ -141,6 +149,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
               ListTile(
                 onTap: () {
+                  notif("Loading");
                   setState(() => section = Section.Widget1);
                 },
                 title: Text(
@@ -150,6 +159,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
               ListTile(
                 onTap: () {
+                  notif("Loading");
                   setState(() => section = Section.Widget2);
                 },
                 title: Text(
@@ -159,6 +169,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
               ListTile(
                 onTap: () {
+                  notif("Loading");
                   setState(() => section = Section.Widget3);
                 },
                 title: Text(
@@ -178,6 +189,7 @@ class _MainScreenState extends State<MainScreen> {
             children: [
               ListTile(
                 onTap: () {
+                  notif("Loading");
                   setState(() => section = Section.About);
                 },
                 title: Text(
@@ -187,6 +199,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
               ListTile(
                 onTap: () {
+                  notif("Loading");
                   setState(() => section = Section.BrandAssets);
                 },
                 title: Text(
@@ -196,6 +209,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
               ListTile(
                 onTap: () {
+                  notif("Loading");
                   setState(() => section = Section.ListAset);
                 },
                 title: Text(
@@ -207,9 +221,13 @@ class _MainScreenState extends State<MainScreen> {
           ),
           ListTile(
             onTap: () {
+              notif("Loading");
               setState(() => section = Section.Categories);
             },
-            leading: Icon(Icons.circle),
+            leading: Icon(
+              Icons.circle,
+              color: fontColor,
+            ),
             title: Text(
               "Kategori",
               style: TextStyle(color: fontColor),
@@ -217,9 +235,13 @@ class _MainScreenState extends State<MainScreen> {
           ),
           ListTile(
             onTap: () {
+              notif("Loading");
               setState(() => section = Section.Articles);
             },
-            leading: Icon(Icons.circle),
+            leading: Icon(
+              Icons.circle,
+              color: fontColor,
+            ),
             title: Text(
               "Artikel",
               style: TextStyle(color: fontColor),
@@ -227,9 +249,13 @@ class _MainScreenState extends State<MainScreen> {
           ),
           ListTile(
             onTap: () {
+              notif("Loading");
               setState(() => section = Section.Footer);
             },
-            leading: Icon(Icons.circle),
+            leading: Icon(
+              Icons.circle,
+              color: fontColor,
+            ),
             title: Text(
               "Footer",
               style: TextStyle(color: fontColor),
@@ -237,9 +263,13 @@ class _MainScreenState extends State<MainScreen> {
           ),
           ListTile(
             onTap: () {
+              notif("Loading");
               setState(() => section = Section.User);
             },
-            leading: Icon(Icons.circle),
+            leading: Icon(
+              Icons.circle,
+              color: fontColor,
+            ),
             title: Text(
               "Manajemen Pengguna",
               style: TextStyle(color: fontColor),

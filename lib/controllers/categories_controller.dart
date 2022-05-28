@@ -12,6 +12,7 @@ class ListCategoriesController {
     final response = await http.get(parseUrl);
 
     List<CategoriesModel> list = [];
+
     for (var data in jsonDecode(response.body)['data'] as List) {
       list.add(CategoriesModel.fromJson(data));
     }
