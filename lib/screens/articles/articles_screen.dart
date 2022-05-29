@@ -50,6 +50,7 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
           });
         } else {
           setState(() {
+            isLoading = false;
             kosong = true;
           });
         }

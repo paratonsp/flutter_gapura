@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:gapura/constants.dart';
 import 'package:gapura/screens/components/header.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FooterScreen extends StatefulWidget {
   @override
@@ -47,15 +48,20 @@ class _StateFooterScreen extends State<FooterScreen> {
   }
 
   patchData() async {
+    final prefs = await SharedPreferences.getInstance();
     String url = dotenv.env['BASE_URL'] + "api/v1/footer";
     var uri = Uri.parse(url);
 
-    var response = await http.patch(uri, body: {
-      "copyright": copyrightController.text,
-      "address": alamatController.text,
-      "phone": telponController.text,
-      "dinas": dinasController.text,
-    });
+    var response = await http.patch(
+      uri,
+      headers: {"Authorization": "Bearer " + prefs.getString('token')},
+      body: {
+        "copyright": copyrightController.text,
+        "address": alamatController.text,
+        "phone": telponController.text,
+        "dinas": dinasController.text,
+      },
+    );
 
     if (jsonDecode(response.body)["status"] == 200) {
       notif("Behasil Update");
@@ -68,7 +74,7 @@ class _StateFooterScreen extends State<FooterScreen> {
 
   notif(String msg) async {
     Fluttertoast.showToast(
-        msg: msg, webBgColor: "linear-gradient(to right, #F15A24, #F15A24)");
+        msg: msg, webBgColor: "linear-gradient(to right, #A22855, #A22855)");
   }
 
   @override

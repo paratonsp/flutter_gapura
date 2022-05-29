@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import, must_be_immutable, avoid_web_libraries_in_flutter
 
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:html';
 
@@ -10,7 +11,6 @@ import 'package:gapura/constants.dart';
 import 'package:gapura/controllers/categories_controller.dart';
 import 'package:gapura/responsive.dart';
 import 'package:flutter/material.dart';
-import 'package:gapura/screens/template/background_image_upload.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -21,6 +21,7 @@ import 'package:gapura/screens/components/storage_details.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ListAsetAddModal extends StatefulWidget {
   @override
@@ -95,6 +96,7 @@ class _ListAsetAddModal extends State<ListAsetAddModal> {
   }
 
   postData() async {
+    final prefs = await SharedPreferences.getInstance();
     var descriptionText = await descriptionController.getText();
 
     String url = dotenv.env['BASE_URL'] + "api/v1/assets/add";
@@ -102,6 +104,7 @@ class _ListAsetAddModal extends State<ListAsetAddModal> {
 
     var response = await http.post(
       uri,
+      headers: {"Authorization": "Bearer " + prefs.getString('token')},
       body: (imageString == null && imageBackgroundString == null)
           ? {
               "title": titleController.text,
@@ -140,7 +143,7 @@ class _ListAsetAddModal extends State<ListAsetAddModal> {
 
   notif(String msg) async {
     Fluttertoast.showToast(
-        msg: msg, webBgColor: "linear-gradient(to right, #F15A24, #F15A24)");
+        msg: msg, webBgColor: "linear-gradient(to right, #A22855, #A22855)");
   }
 
   @override
@@ -396,86 +399,92 @@ class _ListAsetAddModal extends State<ListAsetAddModal> {
 
   descriptionBody(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(defaultPadding),
-      decoration: BoxDecoration(
-        color: primaryColor,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Deskripsi",
-            style: TextStyle(fontSize: 16, color: bgColor),
+            "Attention",
+            style: TextStyle(fontSize: 16, color: fontColor),
           ),
           SizedBox(height: 10),
-          HtmlEditor(
-            controller: descriptionController,
-            htmlEditorOptions: HtmlEditorOptions(
-              hint: '',
-              darkMode: false,
-              initialText: "",
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: fontColor),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10), topRight: Radius.circular(10)),
             ),
-            htmlToolbarOptions: HtmlToolbarOptions(
-              buttonColor: bgColor,
-              textStyle: TextStyle(color: bgColor),
-              defaultToolbarButtons: [
-                StyleButtons(),
-                FontSettingButtons(
-                  fontName: false,
-                  fontSizeUnit: false,
-                ),
-                ListButtons(
-                  listStyles: false,
-                ),
-                FontButtons(
-                  clearAll: false,
-                  strikethrough: false,
-                  superscript: false,
-                  subscript: false,
-                ),
-                InsertButtons(
-                  table: false,
-                  audio: false,
-                  hr: false,
-                ),
-                OtherButtons(
-                  help: false,
-                  copy: false,
-                  paste: false,
-                ),
+            child: HtmlEditor(
+              controller: descriptionController,
+              htmlEditorOptions: HtmlEditorOptions(
+                hint: 'Attention',
+                darkMode: false,
+                initialText: "",
+              ),
+              htmlToolbarOptions: HtmlToolbarOptions(
+                dropdownBackgroundColor: bgColor,
+                dropdownBoxDecoration:
+                    BoxDecoration(border: Border.all(color: primaryColor)),
+                buttonBorderColor: fontColor,
+                buttonColor: fontColor,
+                textStyle: TextStyle(color: fontColor),
+                defaultToolbarButtons: [
+                  StyleButtons(),
+                  FontSettingButtons(
+                    fontName: false,
+                    fontSizeUnit: false,
+                  ),
+                  ListButtons(
+                    listStyles: false,
+                  ),
+                  FontButtons(
+                    clearAll: false,
+                    strikethrough: false,
+                    superscript: false,
+                    subscript: false,
+                  ),
+                  InsertButtons(
+                    table: false,
+                    audio: false,
+                    hr: false,
+                  ),
+                  OtherButtons(
+                    help: false,
+                    copy: false,
+                    paste: false,
+                  ),
+                ],
+                toolbarPosition: ToolbarPosition.aboveEditor, //by default
+                toolbarType: ToolbarType.nativeScrollable, //by default
+                onButtonPressed:
+                    (ButtonType type, bool status, Function() updateStatus) {
+                  return true;
+                },
+                onDropdownChanged: (DropdownType type, dynamic changed,
+                    Function(dynamic) updateSelectedItem) {
+                  return true;
+                },
+                mediaLinkInsertInterceptor: (String url, InsertFileType type) {
+                  return true;
+                },
+                mediaUploadInterceptor:
+                    (PlatformFile file, InsertFileType type) async {
+                  //filename
+                  return true;
+                },
+              ),
+              plugins: [
+                SummernoteAtMention(
+                    getSuggestionsMobile: (String value) {
+                      var mentions = <String>['test1', 'test2', 'test3'];
+                      return mentions
+                          .where((element) => element.contains(value))
+                          .toList();
+                    },
+                    mentionsWeb: ['test1', 'test2', 'test3'],
+                    onSelect: (String value) {}),
               ],
-              toolbarPosition: ToolbarPosition.aboveEditor, //by default
-              toolbarType: ToolbarType.nativeScrollable, //by default
-              onButtonPressed:
-                  (ButtonType type, bool status, Function() updateStatus) {
-                return true;
-              },
-              onDropdownChanged: (DropdownType type, dynamic changed,
-                  Function(dynamic) updateSelectedItem) {
-                return true;
-              },
-              mediaLinkInsertInterceptor: (String url, InsertFileType type) {
-                return true;
-              },
-              mediaUploadInterceptor:
-                  (PlatformFile file, InsertFileType type) async {
-                //filename
-                return true;
-              },
             ),
-            plugins: [
-              SummernoteAtMention(
-                  getSuggestionsMobile: (String value) {
-                    var mentions = <String>['test1', 'test2', 'test3'];
-                    return mentions
-                        .where((element) => element.contains(value))
-                        .toList();
-                  },
-                  mentionsWeb: ['test1', 'test2', 'test3'],
-                  onSelect: (String value) {}),
-            ],
-          ),
+          )
         ],
       ),
     );

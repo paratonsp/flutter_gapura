@@ -6,7 +6,6 @@ import 'package:cross_file_image/cross_file_image.dart';
 import 'package:gapura/controllers/categories_controller.dart';
 import 'package:gapura/responsive.dart';
 import 'package:flutter/material.dart';
-import 'package:gapura/screens/template/background_image_upload.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
@@ -58,7 +57,7 @@ class _ArticlesLabelModal extends State<ArticlesLabelModal> {
                   Text(
                     "Label Gambar",
                     style: TextStyle(
-                        color: secondaryColor,
+                        color: fontColor,
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
@@ -121,58 +120,64 @@ class _ArticlesLabelModal extends State<ArticlesLabelModal> {
 
   labelBody(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(defaultPadding),
-      decoration: BoxDecoration(
-        color: primaryColor,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "Label",
-            style: TextStyle(fontSize: 16, color: bgColor),
+            style: TextStyle(fontSize: 16, color: fontColor),
           ),
           SizedBox(height: 10),
-          HtmlEditor(
-            controller: labelController,
-            htmlEditorOptions: HtmlEditorOptions(
-              initialText: widget.label,
-              hint: '',
-              darkMode: false,
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: fontColor),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10), topRight: Radius.circular(10)),
             ),
-            htmlToolbarOptions: HtmlToolbarOptions(
-              buttonColor: bgColor,
-              textStyle: TextStyle(color: bgColor),
-              defaultToolbarButtons: [
-                StyleButtons(),
-                FontSettingButtons(
-                  fontName: false,
-                  fontSizeUnit: false,
-                ),
-              ],
+            child: HtmlEditor(
+              controller: labelController,
+              htmlEditorOptions: HtmlEditorOptions(
+                initialText: widget.label,
+                hint: 'Label',
+                darkMode: false,
+              ),
+              htmlToolbarOptions: HtmlToolbarOptions(
+                dropdownBackgroundColor: bgColor,
+                dropdownBoxDecoration:
+                    BoxDecoration(border: Border.all(color: primaryColor)),
+                buttonBorderColor: fontColor,
+                buttonColor: fontColor,
+                textStyle: TextStyle(color: fontColor),
+                defaultToolbarButtons: [
+                  StyleButtons(),
+                  FontSettingButtons(
+                    fontName: false,
+                    fontSizeUnit: false,
+                  ),
+                ],
 
-              toolbarPosition: ToolbarPosition.aboveEditor, //by default
-              toolbarType: ToolbarType.nativeScrollable, //by default
-              onButtonPressed:
-                  (ButtonType type, bool status, Function() updateStatus) {
-                return true;
-              },
-              onDropdownChanged: (DropdownType type, dynamic changed,
-                  Function(dynamic) updateSelectedItem) {
-                return true;
-              },
-              mediaLinkInsertInterceptor: (String url, InsertFileType type) {
-                return true;
-              },
-              mediaUploadInterceptor:
-                  (PlatformFile file, InsertFileType type) async {
-                //filename
-                return true;
-              },
+                toolbarPosition: ToolbarPosition.aboveEditor, //by default
+                toolbarType: ToolbarType.nativeScrollable, //by default
+                onButtonPressed:
+                    (ButtonType type, bool status, Function() updateStatus) {
+                  return true;
+                },
+                onDropdownChanged: (DropdownType type, dynamic changed,
+                    Function(dynamic) updateSelectedItem) {
+                  return true;
+                },
+                mediaLinkInsertInterceptor: (String url, InsertFileType type) {
+                  return true;
+                },
+                mediaUploadInterceptor:
+                    (PlatformFile file, InsertFileType type) async {
+                  //filename
+                  return true;
+                },
+              ),
+              otherOptions:
+                  OtherOptions(height: MediaQuery.of(context).size.height / 7),
             ),
-            otherOptions:
-                OtherOptions(height: MediaQuery.of(context).size.height / 7),
           ),
         ],
       ),

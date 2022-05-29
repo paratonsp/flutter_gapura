@@ -9,7 +9,6 @@ import 'package:gapura/constants.dart';
 import 'package:gapura/controllers/categories_controller.dart';
 import 'package:gapura/responsive.dart';
 import 'package:flutter/material.dart';
-import 'package:gapura/screens/template/background_image_upload.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:gapura/screens/components/my_fields.dart';
@@ -19,6 +18,7 @@ import 'package:gapura/screens/components/storage_details.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CategoriesAddModal extends StatefulWidget {
   @override
@@ -89,11 +89,13 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
   }
 
   postData() async {
+    final prefs = await SharedPreferences.getInstance();
     String url = dotenv.env['BASE_URL'] + "api/v1/categories/add";
     var uri = Uri.parse(url);
 
     var response = await http.post(
       uri,
+      headers: {"Authorization": "Bearer " + prefs.getString('token')},
       body: (imageString == null && imageBackgroundString == null)
           ? {
               "title": titleController.text,
@@ -136,7 +138,7 @@ class _CategoriesAddModal extends State<CategoriesAddModal> {
 
   notif(String msg) async {
     Fluttertoast.showToast(
-        msg: msg, webBgColor: "linear-gradient(to right, #F15A24, #F15A24)");
+        msg: msg, webBgColor: "linear-gradient(to right, #A22855, #A22855)");
   }
 
   @override

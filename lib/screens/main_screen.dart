@@ -43,7 +43,7 @@ var section;
 class _MainScreenState extends State<MainScreen> {
   notif(String msg) async {
     Fluttertoast.showToast(
-        msg: msg, webBgColor: "linear-gradient(to right, #F15A24, #F15A24)");
+        msg: msg, webBgColor: "linear-gradient(to right, #A22855, #A22855)");
   }
 
   @override
@@ -135,7 +135,7 @@ class _MainScreenState extends State<MainScreen> {
             iconColor: primaryColor,
             collapsedIconColor: fontColor,
             leading: Icon(Icons.circle),
-            title: Text("Halaman Utama"),
+            title: Text("Beranda"),
             children: [
               ListTile(
                 onTap: () {
@@ -185,7 +185,7 @@ class _MainScreenState extends State<MainScreen> {
             iconColor: primaryColor,
             collapsedIconColor: fontColor,
             leading: Icon(Icons.circle),
-            title: Text("Halaman Tentang"),
+            title: Text("Tentang Gapura"),
             children: [
               ListTile(
                 onTap: () {

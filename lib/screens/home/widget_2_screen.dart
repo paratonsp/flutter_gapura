@@ -11,6 +11,7 @@ import 'package:gapura/responsive.dart';
 import 'package:gapura/screens/components/header.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Widget2Screen extends StatefulWidget {
   @override
@@ -72,11 +73,13 @@ class _StateWidget2Screen extends State<Widget2Screen> {
   }
 
   patchData() async {
+    final prefs = await SharedPreferences.getInstance();
     String url = dotenv.env['BASE_URL'] + "api/v1/home";
     var uri = Uri.parse(url);
 
     var response = await http.patch(
       uri,
+      headers: {"Authorization": "Bearer " + prefs.getString('token')},
       body: (imageString == null)
           ? {
               "position": "wdg_baca_gapura",
@@ -102,7 +105,7 @@ class _StateWidget2Screen extends State<Widget2Screen> {
 
   notif(String msg) async {
     Fluttertoast.showToast(
-        msg: msg, webBgColor: "linear-gradient(to right, #F15A24, #F15A24)");
+        msg: msg, webBgColor: "linear-gradient(to right, #A22855, #A22855)");
   }
 
   @override
@@ -290,7 +293,7 @@ class _StateWidget2Screen extends State<Widget2Screen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Sub Judul",
+            "Deskripsi",
             style: TextStyle(color: fontColor, fontSize: 16),
           ),
           SizedBox(height: 10),

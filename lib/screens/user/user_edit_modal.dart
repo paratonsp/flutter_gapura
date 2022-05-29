@@ -10,7 +10,6 @@ import 'package:gapura/constants.dart';
 import 'package:gapura/controllers/categories_controller.dart';
 import 'package:gapura/responsive.dart';
 import 'package:flutter/material.dart';
-import 'package:gapura/screens/template/background_image_upload.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -21,6 +20,7 @@ import 'package:gapura/screens/components/storage_details.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserEditModal extends StatefulWidget {
   UserEditModal({this.user_id});
@@ -59,11 +59,13 @@ class _UserEditModal extends State<UserEditModal> {
   }
 
   patchData() async {
+    final prefs = await SharedPreferences.getInstance();
     String url = dotenv.env['BASE_URL'] + "api/v1/user/update";
     var uri = Uri.parse(url);
 
     var response = await http.patch(
       uri,
+      headers: {"Authorization": "Bearer " + prefs.getString('token')},
       body: {
         "user_id": widget.user_id,
         "fullname": fullnameController.text,
@@ -86,11 +88,15 @@ class _UserEditModal extends State<UserEditModal> {
   }
 
   deleteData() async {
+    final prefs = await SharedPreferences.getInstance();
     String url =
         dotenv.env['BASE_URL'] + "api/v1/user/delete/" + widget.user_id;
     var uri = Uri.parse(url);
 
-    var response = await http.delete(uri);
+    var response = await http.delete(
+      uri,
+      headers: {"Authorization": "Bearer " + prefs.getString('token')},
+    );
 
     if (jsonDecode(response.body)["error"] == false) {
       notif("Deleted");
@@ -103,7 +109,7 @@ class _UserEditModal extends State<UserEditModal> {
 
   notif(String msg) async {
     Fluttertoast.showToast(
-        msg: msg, webBgColor: "linear-gradient(to right, #F15A24, #F15A24)");
+        msg: msg, webBgColor: "linear-gradient(to right, #A22855, #A22855)");
   }
 
   @override

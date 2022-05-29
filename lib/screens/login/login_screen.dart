@@ -34,10 +34,6 @@ class _StateLoginScreen extends State<LoginScreen> {
     super.initState();
     focusNode.addListener(() {});
     getPrefsData();
-    if (token != null) {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => ToDashboard()));
-    }
   }
 
   getPrefsData() async {
@@ -49,6 +45,12 @@ class _StateLoginScreen extends State<LoginScreen> {
       email = prefs.getString('email');
       role = prefs.getString('role');
     });
+    if (token != null) {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => ToDashboard()));
+    } else {
+      print("null");
+    }
   }
 
   getData() async {
@@ -80,7 +82,7 @@ class _StateLoginScreen extends State<LoginScreen> {
 
   notif(String msg) async {
     Fluttertoast.showToast(
-        msg: msg, webBgColor: "linear-gradient(to right, #F15A24, #F15A24)");
+        msg: msg, webBgColor: "linear-gradient(to right, #A22855, #A22855)");
   }
 
   @override
@@ -144,6 +146,7 @@ class _StateLoginScreen extends State<LoginScreen> {
                         });
                       },
                       child: TextField(
+                        keyboardType: TextInputType.emailAddress,
                         controller: emailController,
                         focusNode: focusNode,
                         style: TextStyle(color: fontColor),
@@ -188,6 +191,7 @@ class _StateLoginScreen extends State<LoginScreen> {
                         });
                       },
                       child: TextField(
+                        keyboardType: TextInputType.visiblePassword,
                         controller: passwordController,
                         obscureText: showPassword,
                         style: TextStyle(color: fontColor),

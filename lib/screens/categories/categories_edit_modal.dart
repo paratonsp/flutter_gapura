@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CategoriesEditModal extends StatefulWidget {
   CategoriesEditModal({this.categories_id});
@@ -112,11 +113,13 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
   }
 
   patchData() async {
+    final prefs = await SharedPreferences.getInstance();
     String url = dotenv.env['BASE_URL'] + "api/v1/categories/update";
     var uri = Uri.parse(url);
 
     var response = await http.patch(
       uri,
+      headers: {"Authorization": "Bearer " + prefs.getString('token')},
       body: (imageString == null && imageBackgroundString == null)
           ? {
               "categories_id": widget.categories_id,
@@ -162,12 +165,16 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
   }
 
   deleteData() async {
+    final prefs = await SharedPreferences.getInstance();
     String url = dotenv.env['BASE_URL'] +
         "api/v1/categories/delete/" +
         widget.categories_id;
     var uri = Uri.parse(url);
 
-    var response = await http.delete(uri);
+    var response = await http.delete(
+      uri,
+      headers: {"Authorization": "Bearer " + prefs.getString('token')},
+    );
 
     if (jsonDecode(response.body)["error"] == false) {
       notif("Deleted");
@@ -180,7 +187,7 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
 
   notif(String msg) async {
     Fluttertoast.showToast(
-        msg: msg, webBgColor: "linear-gradient(to right, #F15A24, #F15A24)");
+        msg: msg, webBgColor: "linear-gradient(to right, #A22855, #A22855)");
   }
 
   @override

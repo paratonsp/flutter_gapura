@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-Color primaryColor = HexColor("#F15A24");
+Color primaryColor = HexColor("#A22855");
 Color secondaryColor = HexColor("#A22855");
 Color fontColor = HexColor("#101820");
 Color borderColor = HexColor("#101820");
