@@ -447,29 +447,26 @@ class _ListAsetEditModal extends State<ListAsetEditModal> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(
-                    width: MediaQuery.of(context).size.width / 8,
+                    width: MediaQuery.of(context).size.width / 10,
                     child: Text(
                       imageBackgroundName,
-                      overflow: TextOverflow.ellipsis,
+                      // overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  Positioned(
-                    right: 5.0,
-                    child: InkWell(
-                      child: Icon(
-                        Icons.remove_circle,
-                        size: 30,
-                        color: Colors.red,
-                      ),
-                      onTap: () {
-                        setState(() {
-                          imageBackgroundBytes = null;
-                          imageBackgroundString = null;
-                          imageBackgroundName = null;
-                        });
-                      },
+                  GestureDetector(
+                    child: Icon(
+                      Icons.remove_circle,
+                      size: 30,
+                      color: Colors.red,
                     ),
-                  )
+                    onTap: () {
+                      setState(() {
+                        imageBackgroundBytes = null;
+                        imageBackgroundString = null;
+                        imageBackgroundName = null;
+                      });
+                    },
+                  ),
                 ],
               ),
       ),

@@ -337,27 +337,27 @@ class _ListAsetAddModal extends State<ListAsetAddModal> {
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(
-                    imageBackgroundName,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Positioned(
-                    right: 5.0,
-                    child: InkWell(
-                      child: Icon(
-                        Icons.remove_circle,
-                        size: 30,
-                        color: fontColor,
-                      ),
-                      onTap: () {
-                        setState(() {
-                          imageBackgroundBytes = null;
-                          imageBackgroundString = null;
-                          imageBackgroundName = null;
-                        });
-                      },
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 10,
+                    child: Text(
+                      imageBackgroundName,
+                      // overflow: TextOverflow.ellipsis,
                     ),
-                  )
+                  ),
+                  GestureDetector(
+                    child: Icon(
+                      Icons.remove_circle,
+                      size: 30,
+                      color: Colors.red,
+                    ),
+                    onTap: () {
+                      setState(() {
+                        imageBackgroundBytes = null;
+                        imageBackgroundString = null;
+                        imageBackgroundName = null;
+                      });
+                    },
+                  ),
                 ],
               ),
       ),
