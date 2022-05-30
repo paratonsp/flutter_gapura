@@ -46,10 +46,22 @@ class _StateLoginScreen extends State<LoginScreen> {
       role = prefs.getString('role');
     });
     if (token != null) {
+      checkToken();
+    }
+  }
+
+  checkToken() async {
+    String url = dotenv.env['BASE_URL'] + "api/v1/auth/check";
+    var uri = Uri.parse(url);
+    var response = await http.post(uri, body: {
+      "token": token,
+    });
+
+    if (jsonDecode(response.body)["error"] == false) {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => ToDashboard()));
     } else {
-      print("null");
+      notif("Sesi Berakhir");
     }
   }
 
