@@ -102,9 +102,9 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
         subtitleController.text = jsonDecode(response.body)["data"]["subtitle"];
         descriptionController.text =
             jsonDecode(response.body)["data"]["description"];
-        imageUrl = "https://" + jsonDecode(response.body)["data"]["imagelink"];
+        imageUrl = "http://" + jsonDecode(response.body)["data"]["imagelink"];
         imageBackroundUrl =
-            "https://" + jsonDecode(response.body)["data"]["backgroundlink"];
+            "http://" + jsonDecode(response.body)["data"]["backgroundlink"];
       });
     } else {
       setState(() {});

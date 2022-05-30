@@ -63,7 +63,7 @@ class _StateAsetMerekScreen extends State<AsetMerekScreen> {
         titleController.text = jsonDecode(response.body)["data"]["title"];
         subtitleController.text =
             jsonDecode(response.body)["data"]["description"];
-        imageUrl = "https://" + jsonDecode(response.body)["data"]["imagelink"];
+        imageUrl = "http://" + jsonDecode(response.body)["data"]["imagelink"];
         contentLoad = false;
       });
       notif("Updated");
@@ -130,8 +130,6 @@ class _StateAsetMerekScreen extends State<AsetMerekScreen> {
                 children: [
                   Header(titlePage: "Aset Merek"),
                   SizedBox(height: defaultPadding),
-                  imageBody(context),
-                  SizedBox(height: defaultPadding),
                   titleBody(context),
                   SizedBox(height: defaultPadding),
                   subtitleBody(context),
@@ -165,93 +163,6 @@ class _StateAsetMerekScreen extends State<AsetMerekScreen> {
                 ],
               ),
             ),
-    );
-  }
-
-  imageBody(BuildContext context) {
-    double containerSize = (Responsive.isDesktop(context))
-        ? MediaQuery.of(context).size.width / 3
-        : MediaQuery.of(context).size.width / 1;
-    return Container(
-      width: containerSize,
-      height: 160,
-      padding: EdgeInsets.all(defaultPadding),
-      decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-          border: Border.all(color: fontColor)),
-      child: Center(
-        child: imageUrl != null
-            ? Stack(
-                children: <Widget>[
-                  Image.network(
-                    imageUrl,
-                    loadingBuilder: (BuildContext context, Widget child,
-                        ImageChunkEvent loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    },
-                  ),
-                  Positioned(
-                    right: 5.0,
-                    child: InkWell(
-                      child: Icon(
-                        Icons.remove_circle,
-                        size: 30,
-                        color: Colors.red,
-                      ),
-                      onTap: () {
-                        setState(() {
-                          imageUrl = null;
-                        });
-                      },
-                    ),
-                  )
-                ],
-              )
-            : imageBytes == null
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton.icon(
-                        onPressed: () {
-                          pickImage();
-                        },
-                        icon: Icon(Icons.upload, color: fontColor),
-                        label: Text(
-                          "Unggah Background",
-                          style: TextStyle(color: fontColor),
-                        ),
-                      ),
-                      Text(
-                        "Upload max: 2MB",
-                        style: TextStyle(color: fontColor),
-                      ),
-                    ],
-                  )
-                : Stack(
-                    children: <Widget>[
-                      Image.memory(imageBytes),
-                      Positioned(
-                        right: 5.0,
-                        child: InkWell(
-                          child: Icon(
-                            Icons.remove_circle,
-                            size: 30,
-                            color: Colors.red,
-                          ),
-                          onTap: () {
-                            setState(() {
-                              imageBytes = null;
-                              imageString = null;
-                            });
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-      ),
     );
   }
 

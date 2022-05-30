@@ -63,7 +63,7 @@ class _StateAboutScreen extends State<AboutScreen> {
         titleController.text = jsonDecode(response.body)["data"]["title"];
         subtitleController.text =
             jsonDecode(response.body)["data"]["description"];
-        imageUrl = "https://" + jsonDecode(response.body)["data"]["imagelink"];
+        imageUrl = "http://" + jsonDecode(response.body)["data"]["imagelink"];
         contentLoad = false;
       });
       notif("Updated");

@@ -62,7 +62,7 @@ class _StateLandingScreen extends State<LandingScreen> {
       setState(() {
         titleController.text = jsonDecode(response.body)["data"]["title"];
         subtitleController.text = jsonDecode(response.body)["data"]["subtitle"];
-        imageUrl = "https://" + jsonDecode(response.body)["data"]["imagelink"];
+        imageUrl = "http://" + jsonDecode(response.body)["data"]["imagelink"];
         contentLoad = false;
       });
       notif("Updated");

@@ -57,7 +57,7 @@ class _ListAsetEditModal extends State<ListAsetEditModal> {
       setState(() {
         titleController.text = jsonDecode(response.body)["data"]["title"];
         descriptionText = jsonDecode(response.body)["data"]["attention"];
-        imageUrl = "https://" + jsonDecode(response.body)["data"]["imagelink"];
+        imageUrl = "http://" + jsonDecode(response.body)["data"]["imagelink"];
         imageBackgroundName = jsonDecode(response.body)["data"]["file"];
         contentLoad = false;
       });
