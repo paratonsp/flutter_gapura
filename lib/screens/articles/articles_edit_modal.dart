@@ -66,7 +66,7 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
         labelString = jsonDecode(response.body)["data"]["label"];
         sublabelString = jsonDecode(response.body)["data"]["sublabel"];
         descriptionText = jsonDecode(response.body)["data"]["description"];
-        imageUrl = "http://" + jsonDecode(response.body)["data"]["imagelink"];
+        imageUrl = jsonDecode(response.body)["data"]["imagelink"];
         contentLoad = false;
       });
       notif("Updated");

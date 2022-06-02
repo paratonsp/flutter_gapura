@@ -62,7 +62,7 @@ class _StateAsetMerekScreen extends State<AsetMerekScreen> {
         titleController.text = jsonDecode(response.body)["data"]["title"];
         subtitleController.text =
             jsonDecode(response.body)["data"]["description"];
-        imageUrl = "http://" + jsonDecode(response.body)["data"]["imagelink"];
+        imageUrl = jsonDecode(response.body)["data"]["imagelink"];
         contentLoad = false;
       });
       notif("Updated");
