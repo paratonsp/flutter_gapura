@@ -20,6 +20,7 @@ import 'package:gapura/screens/components/my_fields.dart';
 import 'package:gapura/screens/components/header.dart';
 import 'package:gapura/screens/components/recent_files.dart';
 import 'package:gapura/screens/components/storage_details.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ArticlesAddModal extends StatefulWidget {
@@ -34,6 +35,8 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
   String categoriesPicked;
   List listCategories;
 
+  DateTime _selectedDate;
+
   TextEditingController titleController = TextEditingController();
   TextEditingController subtitleController = TextEditingController();
   TextEditingController tableuController = TextEditingController();
@@ -41,6 +44,7 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
       TextEditingController(text: "400");
   TextEditingController iframeController = TextEditingController();
   HtmlEditorController descriptionController = HtmlEditorController();
+  TextEditingController dateController = TextEditingController();
 
   List<int> imageBytes;
   String imageString;
@@ -105,6 +109,9 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
               "label": labelString,
               "sublabel": sublabelString,
               "description": descriptionText,
+              "publishedAt": (_selectedDate == null)
+                  ? DateTime.now().toString()
+                  : _selectedDate.toString(),
             }
           : {
               "categories_id": categoriesPicked,
@@ -112,6 +119,9 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
               "label": labelString,
               "sublabel": sublabelString,
               "description": descriptionText,
+              "publishedAt": (_selectedDate == null)
+                  ? DateTime.now().toString()
+                  : _selectedDate.toString(),
               "image": imageString,
             },
     );
@@ -284,6 +294,8 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
                     iframeBody(context),
                     SizedBox(height: defaultPadding),
                     categoriesBody(context),
+                    SizedBox(height: defaultPadding),
+                    customDate(context),
                     SizedBox(height: defaultPadding),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -711,6 +723,43 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
     );
   }
 
+  customDate(BuildContext context) {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Tanggal Terbit",
+            style: TextStyle(color: fontColor, fontSize: 16),
+          ),
+          SizedBox(height: 10),
+          SizedBox(
+            width: double.infinity,
+            child: TextField(
+              focusNode: AlwaysDisabledFocusNode(),
+              onTap: () {
+                _selectDate(context);
+              },
+              controller: dateController,
+              style: TextStyle(color: fontColor),
+              decoration: InputDecoration(
+                fillColor: fontColor,
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: primaryColor),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: fontColor),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   void navigateLabelModal(BuildContext context, String label) async {
     var labelData = await Navigator.of(context).push(
       PageRouteBuilder(
@@ -771,4 +820,41 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
       sublabelString = sublabelData;
     });
   }
+
+  _selectDate(BuildContext context) async {
+    DateTime newSelectedDate = await showDatePicker(
+        context: context,
+        initialDate: _selectedDate != null ? _selectedDate : DateTime.now(),
+        firstDate: DateTime(1900),
+        lastDate: DateTime(2100),
+        builder: (BuildContext context, Widget child) {
+          return Theme(
+            data: ThemeData.dark().copyWith(
+              colorScheme: ColorScheme.dark(
+                primary: Colors.deepPurple,
+                onPrimary: Colors.white,
+                surface: Colors.blueGrey,
+                onSurface: Colors.yellow,
+              ),
+              dialogBackgroundColor: Colors.blue[500],
+            ),
+            child: child,
+          );
+        });
+
+    if (newSelectedDate != null) {
+      _selectedDate = newSelectedDate;
+      dateController
+        ..text = DateFormat.yMMMd().format(_selectedDate)
+        ..selection = TextSelection.fromPosition(TextPosition(
+            offset: dateController.text.length,
+            affinity: TextAffinity.upstream));
+      print(_selectedDate);
+    }
+  }
+}
+
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
 }

@@ -19,6 +19,7 @@ class ListArticlesController {
       "categories_id": categories_id,
       "sortBy": "id",
       "sort": "DESC",
+      "admin": "true",
     });
 
     final response = await http.get(parseUrl);

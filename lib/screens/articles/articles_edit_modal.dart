@@ -20,6 +20,7 @@ import 'package:gapura/screens/components/my_fields.dart';
 import 'package:gapura/screens/components/header.dart';
 import 'package:gapura/screens/components/recent_files.dart';
 import 'package:gapura/screens/components/storage_details.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ArticlesEditModal extends StatefulWidget {
@@ -36,6 +37,8 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
   String categoriesPicked;
   List listCategories;
 
+  DateTime _selectedDate;
+
   TextEditingController titleController = TextEditingController();
   TextEditingController subtitleController = TextEditingController();
   TextEditingController tableuController = TextEditingController();
@@ -43,6 +46,7 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
       TextEditingController(text: "400");
   TextEditingController iframeController = TextEditingController();
   HtmlEditorController descriptionController = HtmlEditorController();
+  TextEditingController dateController = TextEditingController();
 
   List<int> imageBytes;
   String imageString;
@@ -67,6 +71,11 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
         sublabelString = jsonDecode(response.body)["data"]["sublabel"];
         descriptionText = jsonDecode(response.body)["data"]["description"];
         imageUrl = jsonDecode(response.body)["data"]["imagelink"];
+        // _selectedDate = jsonDecode(response.body)["data"]["createdAt"];
+        _selectedDate = DateFormat("yyyy-MM-ddTHH:mm:ss.mmmZ")
+            .parse(jsonDecode(response.body)["data"]["createdAt"]);
+        dateController.text = DateFormat.yMMMd().format(_selectedDate);
+        print(_selectedDate);
         contentLoad = false;
       });
       notif("Updated");
@@ -136,6 +145,7 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
               "label": labelString,
               "sublabel": sublabelString,
               "description": descriptionText,
+              "publishedAt": _selectedDate.toString(),
             }
           : {
               "article_id": widget.article_id,
@@ -144,6 +154,7 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
               "label": labelString,
               "sublabel": sublabelString,
               "description": descriptionText,
+              "publishedAt": _selectedDate.toString(),
               "image": imageString,
             },
     );
@@ -338,6 +349,8 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
                     iframeBody(context),
                     SizedBox(height: defaultPadding),
                     categoriesBody(context),
+                    SizedBox(height: defaultPadding),
+                    customDate(context),
                     SizedBox(height: defaultPadding),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -814,6 +827,43 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
     );
   }
 
+  customDate(BuildContext context) {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Tanggal Terbit",
+            style: TextStyle(color: fontColor, fontSize: 16),
+          ),
+          SizedBox(height: 10),
+          SizedBox(
+            width: double.infinity,
+            child: TextField(
+              focusNode: AlwaysDisabledFocusNode(),
+              onTap: () {
+                _selectDate(context);
+              },
+              controller: dateController,
+              style: TextStyle(color: fontColor),
+              decoration: InputDecoration(
+                fillColor: fontColor,
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: primaryColor),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: fontColor),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   void navigateLabelModal(BuildContext context, String label) async {
     var labelData = await Navigator.of(context).push(
       PageRouteBuilder(
@@ -874,4 +924,41 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
       sublabelString = sublabelData;
     });
   }
+
+  _selectDate(BuildContext context) async {
+    DateTime newSelectedDate = await showDatePicker(
+        context: context,
+        initialDate: _selectedDate != null ? _selectedDate : DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2040),
+        builder: (BuildContext context, Widget child) {
+          return Theme(
+            data: ThemeData.dark().copyWith(
+              colorScheme: ColorScheme.dark(
+                primary: Colors.deepPurple,
+                onPrimary: Colors.white,
+                surface: Colors.blueGrey,
+                onSurface: Colors.yellow,
+              ),
+              dialogBackgroundColor: Colors.blue[500],
+            ),
+            child: child,
+          );
+        });
+
+    if (newSelectedDate != null) {
+      _selectedDate = newSelectedDate;
+      dateController
+        ..text = DateFormat.yMMMd().format(_selectedDate)
+        ..selection = TextSelection.fromPosition(TextPosition(
+            offset: dateController.text.length,
+            affinity: TextAffinity.upstream));
+      print(_selectedDate);
+    }
+  }
+}
+
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
 }
