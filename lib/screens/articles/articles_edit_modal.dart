@@ -56,6 +56,8 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
   String descriptionText = "";
 
   bool contentLoad = true;
+  bool categoriesLoad = true;
+  bool textLoad = true;
 
   getData() async {
     String url =
@@ -75,7 +77,20 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
             .parse(jsonDecode(response.body)["data"]["createdAt"]);
         dateController.text = DateFormat.yMMMd().format(_selectedDate);
         contentLoad = false;
+        Timer(Duration(milliseconds: 3000), () {
+          if (descriptionText.isEmpty) {
+            setState(() {
+              textLoad = false;
+            });
+          } else {
+            setState(() {
+              textLoad = false;
+            });
+          }
+        });
       });
+      print(contentLoad);
+      print(textLoad);
       notif("Updated");
     } else {
       setState(() {});
@@ -92,8 +107,10 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
     if (jsonDecode(response.body)["error"] == false) {
       setState(() {
         listCategories = decodeJson;
+        categoriesLoad = false;
       });
-      contentLoad = false;
+      print(categoriesLoad);
+
       notif("Updated");
     } else {
       setState(() {});
@@ -204,7 +221,7 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
   Widget build(BuildContext context) {
     return Material(
       type: MaterialType.transparency,
-      child: (contentLoad)
+      child: (contentLoad || categoriesLoad)
           ? Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               child: Container(
@@ -742,7 +759,7 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
             style: TextStyle(fontSize: 16, color: fontColor),
           ),
           SizedBox(height: 10),
-          (descriptionText.isEmpty)
+          (textLoad == true)
               ? LinearProgressIndicator()
               : Container(
                   padding: EdgeInsets.all(5),
@@ -799,12 +816,10 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
                             .replaceAll(RegExp('\\<p.*?\\>'), '<p>')
                             .replaceAll(RegExp('\\<span.*?\\>'), '<span>');
                         descriptionController.setText(removedDescriptionText);
-                        print(removedDescriptionText);
                       },
                       onInit: () {
                         Timer(Duration(milliseconds: 100),
                             () => descriptionController.setFullScreen());
-                        // descriptionController.setFullScreen();
                       },
                     ),
                     otherOptions: OtherOptions(height: 400),
@@ -941,7 +956,6 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
         ..selection = TextSelection.fromPosition(TextPosition(
             offset: dateController.text.length,
             affinity: TextAffinity.upstream));
-      print(_selectedDate);
     }
   }
 }
