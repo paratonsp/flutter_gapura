@@ -664,7 +664,7 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
                 vertical: defaultPadding,
               ),
             ),
-            child: Text("Masukkan Tableu"),
+            child: Text("Masukkan Tableau"),
             onPressed: () {
               // uploadData();
               setState(() {
