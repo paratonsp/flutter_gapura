@@ -43,7 +43,10 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
   TextEditingController tableuHeightController =
       TextEditingController(text: "400");
   TextEditingController iframeController = TextEditingController();
-  HtmlEditorController descriptionController = HtmlEditorController();
+  HtmlEditorController descriptionController = HtmlEditorController(
+    processInputHtml: true,
+    processOutputHtml: true,
+  );
   TextEditingController dateController = TextEditingController();
 
   List<int> imageBytes;
@@ -494,7 +497,7 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Tableu",
+                    "Tableau",
                     style: TextStyle(color: fontColor, fontSize: 16),
                   ),
                   SizedBox(height: defaultPadding),
@@ -522,7 +525,7 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Tinggi Tableu",
+                      "Tinggi Tableau",
                       style: TextStyle(color: fontColor, fontSize: 16),
                     ),
                     SizedBox(height: defaultPadding),
@@ -559,7 +562,7 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
                 vertical: defaultPadding,
               ),
             ),
-            child: Text("Masukkan Tableu"),
+            child: Text("Masukkan Tableau"),
             onPressed: () {
               // uploadData();
               setState(() {
@@ -676,46 +679,23 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
                     subscript: false,
                   ),
                   InsertButtons(
+                    picture: false,
                     table: false,
                     audio: false,
                     hr: false,
                   ),
-                  OtherButtons(
-                    help: false,
-                    copy: false,
-                    paste: false,
-                  ),
                 ],
                 toolbarPosition: ToolbarPosition.aboveEditor, //by default
                 toolbarType: ToolbarType.nativeScrollable, //by default
-                onButtonPressed:
-                    (ButtonType type, bool status, Function() updateStatus) {
-                  return true;
-                },
-                onDropdownChanged: (DropdownType type, dynamic changed,
-                    Function(dynamic) updateSelectedItem) {
-                  return true;
-                },
-                mediaLinkInsertInterceptor: (String url, InsertFileType type) {
-                  return true;
-                },
-                mediaUploadInterceptor:
-                    (PlatformFile file, InsertFileType type) async {
-                  //filename
-                  return true;
+              ),
+              callbacks: Callbacks(
+                onPaste: () async {
+                  var descriptionText = await descriptionController.getText();
+                  String removedDescriptionText =
+                      descriptionText.replaceAll(RegExp('\\<p.*?\\>'), '<p>');
+                  descriptionController.setText(removedDescriptionText);
                 },
               ),
-              plugins: [
-                SummernoteAtMention(
-                    getSuggestionsMobile: (String value) {
-                      var mentions = <String>['test1', 'test2', 'test3'];
-                      return mentions
-                          .where((element) => element.contains(value))
-                          .toList();
-                    },
-                    mentionsWeb: ['test1', 'test2', 'test3'],
-                    onSelect: (String value) {}),
-              ],
             ),
           )
         ],

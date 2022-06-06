@@ -65,6 +65,7 @@ class _StateLandingScreen extends State<LandingScreen> {
         imageUrl = jsonDecode(response.body)["data"]["imagelink"];
         contentLoad = false;
       });
+      print(imageUrl);
       notif("Updated");
     } else {
       setState(() {});

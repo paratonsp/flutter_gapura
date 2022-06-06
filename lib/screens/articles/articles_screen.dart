@@ -307,9 +307,9 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
                       DataColumn(
                         label: Text("Slug"),
                       ),
-                      DataColumn(
-                        label: Text("Deskripsi"),
-                      ),
+                      // DataColumn(
+                      //   label: Text("Deskripsi"),
+                      // ),
                       DataColumn(
                         label: Text("Aksi"),
                       ),
@@ -376,10 +376,10 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
           (data.slug == null) ? "" : data.slug,
           overflow: TextOverflow.ellipsis,
         )),
-        DataCell(Text(
-          (data.description == null) ? "" : data.description,
-          overflow: TextOverflow.ellipsis,
-        )),
+        // DataCell(Text(
+        //   (data.description == null) ? "" : data.description,
+        //   overflow: TextOverflow.ellipsis,
+        // )),
         DataCell(
           Text("Ubah"),
           onTap: (() {
