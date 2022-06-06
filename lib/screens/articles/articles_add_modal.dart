@@ -374,7 +374,7 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
                     },
                     icon: Icon(Icons.upload, color: fontColor),
                     label: Text(
-                      "Unggah Background",
+                      "Unggah Gambar",
                       style: TextStyle(color: fontColor),
                     ),
                   ),
@@ -679,7 +679,6 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
                     subscript: false,
                   ),
                   InsertButtons(
-                    picture: false,
                     table: false,
                     audio: false,
                     hr: false,

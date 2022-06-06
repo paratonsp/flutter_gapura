@@ -476,7 +476,7 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
                         },
                         icon: Icon(Icons.upload, color: fontColor),
                         label: Text(
-                          "Unggah Ilustrasi",
+                          "Unggah Gambar",
                           style: TextStyle(color: fontColor),
                         ),
                       ),
@@ -781,7 +781,6 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
                     subscript: false,
                   ),
                   InsertButtons(
-                    picture: false,
                     table: false,
                     audio: false,
                     hr: false,
