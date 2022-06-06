@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:js' as js;
 
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
@@ -307,11 +308,11 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
                       DataColumn(
                         label: Text("Slug"),
                       ),
-                      // DataColumn(
-                      //   label: Text("Deskripsi"),
-                      // ),
                       DataColumn(
                         label: Text("Aksi"),
+                      ),
+                      DataColumn(
+                        label: Text("Lihat"),
                       ),
                     ],
                     rows: List.generate(
@@ -376,14 +377,17 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
           (data.slug == null) ? "" : data.slug,
           overflow: TextOverflow.ellipsis,
         )),
-        // DataCell(Text(
-        //   (data.description == null) ? "" : data.description,
-        //   overflow: TextOverflow.ellipsis,
-        // )),
         DataCell(
           Text("Ubah"),
           onTap: (() {
             navigateModalEdit(context, data.id.toString());
+          }),
+        ),
+        DataCell(
+          Text("Lihat"),
+          onTap: (() {
+            navigateNewTab(context, data.id.toString(),
+                data.categories_id.toString(), data.slug);
           }),
         )
       ],
@@ -422,5 +426,17 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
         _articlesList();
       });
     });
+  }
+
+  navigateNewTab(BuildContext context, String dataid, String datacategories,
+      String dataslug) async {
+    js.context.callMethod('open', [
+      'https://gapuravirtual.surabaya.go.id/post/' +
+          datacategories +
+          '/' +
+          dataslug +
+          '/' +
+          dataid
+    ]);
   }
 }
