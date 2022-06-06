@@ -1,4 +1,5 @@
 // ignore_for_file: unused_import, must_be_immutable, avoid_web_libraries_in_flutter, non_constant_identifier_names
+import 'dart:async';
 import 'dart:convert';
 import 'dart:html';
 
@@ -60,7 +61,6 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
     String url =
         dotenv.env['BASE_URL'] + "api/v1/article/show/" + widget.article_id;
     var uri = Uri.parse(url);
-
     var response = await http.get(uri);
     if (jsonDecode(response.body)["error"] == false) {
       setState(() {
@@ -71,14 +71,11 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
         sublabelString = jsonDecode(response.body)["data"]["sublabel"];
         descriptionText = jsonDecode(response.body)["data"]["description"];
         imageUrl = jsonDecode(response.body)["data"]["imagelink"];
-        // _selectedDate = jsonDecode(response.body)["data"]["createdAt"];
         _selectedDate = DateFormat("yyyy-MM-ddTHH:mm:ss.mmmZ")
             .parse(jsonDecode(response.body)["data"]["createdAt"]);
         dateController.text = DateFormat.yMMMd().format(_selectedDate);
-        print(_selectedDate);
         contentLoad = false;
       });
-      print(imageUrl);
       notif("Updated");
     } else {
       setState(() {});
@@ -745,60 +742,74 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
             style: TextStyle(fontSize: 16, color: fontColor),
           ),
           SizedBox(height: 10),
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: fontColor),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-            ),
-            child: HtmlEditor(
-              controller: descriptionController,
-              htmlEditorOptions: HtmlEditorOptions(
-                hint: 'Deskripsi',
-                darkMode: false,
-                initialText: descriptionText,
-              ),
-              htmlToolbarOptions: HtmlToolbarOptions(
-                dropdownBackgroundColor: bgColor,
-                dropdownBoxDecoration:
-                    BoxDecoration(border: Border.all(color: primaryColor)),
-                buttonBorderColor: fontColor,
-                buttonColor: fontColor,
-                textStyle: TextStyle(color: fontColor),
-                defaultToolbarButtons: [
-                  StyleButtons(),
-                  FontSettingButtons(
-                    fontName: false,
-                    fontSizeUnit: false,
+          (descriptionText.isEmpty)
+              ? LinearProgressIndicator()
+              : Container(
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: fontColor),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10)),
                   ),
-                  ListButtons(
-                    listStyles: false,
+                  child: HtmlEditor(
+                    controller: descriptionController,
+                    htmlEditorOptions: HtmlEditorOptions(
+                      autoAdjustHeight: false,
+                      hint: 'Deskripsi',
+                      darkMode: false,
+                      initialText: descriptionText,
+                    ),
+                    htmlToolbarOptions: HtmlToolbarOptions(
+                      dropdownBackgroundColor: bgColor,
+                      dropdownBoxDecoration: BoxDecoration(
+                          border: Border.all(color: primaryColor)),
+                      buttonBorderColor: fontColor,
+                      buttonColor: fontColor,
+                      textStyle: TextStyle(color: fontColor),
+                      defaultToolbarButtons: [
+                        StyleButtons(),
+                        FontSettingButtons(
+                          fontName: false,
+                          fontSizeUnit: false,
+                        ),
+                        ListButtons(
+                          listStyles: false,
+                        ),
+                        FontButtons(
+                          clearAll: false,
+                          strikethrough: false,
+                          superscript: false,
+                          subscript: false,
+                        ),
+                        InsertButtons(
+                          table: false,
+                          audio: false,
+                          hr: false,
+                        ),
+                      ],
+                      toolbarPosition: ToolbarPosition.aboveEditor, //by default
+                      toolbarType: ToolbarType.nativeScrollable, //by default
+                    ),
+                    callbacks: Callbacks(
+                      onPaste: () async {
+                        var descriptionText =
+                            await descriptionController.getText();
+                        String removedDescriptionText = descriptionText
+                            .replaceAll(RegExp('\\<p.*?\\>'), '<p>')
+                            .replaceAll(RegExp('\\<span.*?\\>'), '<span>');
+                        descriptionController.setText(removedDescriptionText);
+                        print(removedDescriptionText);
+                      },
+                      onInit: () {
+                        Timer(Duration(milliseconds: 100),
+                            () => descriptionController.setFullScreen());
+                        // descriptionController.setFullScreen();
+                      },
+                    ),
+                    otherOptions: OtherOptions(height: 400),
                   ),
-                  FontButtons(
-                    clearAll: false,
-                    strikethrough: false,
-                    superscript: false,
-                    subscript: false,
-                  ),
-                  InsertButtons(
-                    table: false,
-                    audio: false,
-                    hr: false,
-                  ),
-                ],
-                toolbarPosition: ToolbarPosition.aboveEditor, //by default
-                toolbarType: ToolbarType.nativeScrollable, //by default
-              ),
-              callbacks: Callbacks(
-                onPaste: () async {
-                  var descriptionText = await descriptionController.getText();
-                  String removedDescriptionText =
-                      descriptionText.replaceAll(RegExp('\\<p.*?\\>'), '<p>');
-                  descriptionController.setText(removedDescriptionText);
-                },
-              ),
-            ),
-          )
+                ),
         ],
       ),
     );

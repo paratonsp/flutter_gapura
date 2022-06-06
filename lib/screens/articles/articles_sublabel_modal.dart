@@ -1,5 +1,7 @@
 // ignore_for_file: unused_import, must_be_immutable
 
+import 'dart:async';
+
 import 'package:cross_file_image/cross_file_image.dart';
 import 'package:gapura/controllers/categories_controller.dart';
 import 'package:gapura/responsive.dart';
@@ -127,6 +129,7 @@ class _ArticlesSubLabelModal extends State<ArticlesSubLabelModal> {
           ),
           SizedBox(height: 10),
           Container(
+            padding: EdgeInsets.all(5),
             decoration: BoxDecoration(
               border: Border.all(color: fontColor),
               borderRadius: BorderRadius.only(
@@ -135,6 +138,7 @@ class _ArticlesSubLabelModal extends State<ArticlesSubLabelModal> {
             child: HtmlEditor(
               controller: subLabelController,
               htmlEditorOptions: HtmlEditorOptions(
+                autoAdjustHeight: false,
                 initialText: widget.sublabel,
                 hint: 'Sub Label',
                 darkMode: false,
@@ -156,25 +160,15 @@ class _ArticlesSubLabelModal extends State<ArticlesSubLabelModal> {
 
                 toolbarPosition: ToolbarPosition.aboveEditor, //by default
                 toolbarType: ToolbarType.nativeScrollable, //by default
-                onButtonPressed:
-                    (ButtonType type, bool status, Function() updateStatus) {
-                  return true;
-                },
-                onDropdownChanged: (DropdownType type, dynamic changed,
-                    Function(dynamic) updateSelectedItem) {
-                  return true;
-                },
-                mediaLinkInsertInterceptor: (String url, InsertFileType type) {
-                  return true;
-                },
-                mediaUploadInterceptor:
-                    (PlatformFile file, InsertFileType type) async {
-                  //filename
-                  return true;
+              ),
+              callbacks: Callbacks(
+                onInit: () {
+                  Timer(Duration(milliseconds: 100),
+                      () => subLabelController.setFullScreen());
+                  // descriptionController.setFullScreen();
                 },
               ),
-              otherOptions:
-                  OtherOptions(height: MediaQuery.of(context).size.height / 7),
+              otherOptions: OtherOptions(height: 200),
             ),
           ),
         ],

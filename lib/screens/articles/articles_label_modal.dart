@@ -129,6 +129,7 @@ class _ArticlesLabelModal extends State<ArticlesLabelModal> {
           ),
           SizedBox(height: 10),
           Container(
+            padding: EdgeInsets.all(5),
             decoration: BoxDecoration(
               border: Border.all(color: fontColor),
               borderRadius: BorderRadius.only(
@@ -137,6 +138,7 @@ class _ArticlesLabelModal extends State<ArticlesLabelModal> {
             child: HtmlEditor(
               controller: labelController,
               htmlEditorOptions: HtmlEditorOptions(
+                autoAdjustHeight: false,
                 initialText: widget.label,
                 hint: 'Label',
                 darkMode: false,
@@ -158,25 +160,15 @@ class _ArticlesLabelModal extends State<ArticlesLabelModal> {
 
                 toolbarPosition: ToolbarPosition.aboveEditor, //by default
                 toolbarType: ToolbarType.nativeScrollable, //by default
-                onButtonPressed:
-                    (ButtonType type, bool status, Function() updateStatus) {
-                  return true;
-                },
-                onDropdownChanged: (DropdownType type, dynamic changed,
-                    Function(dynamic) updateSelectedItem) {
-                  return true;
-                },
-                mediaLinkInsertInterceptor: (String url, InsertFileType type) {
-                  return true;
-                },
-                mediaUploadInterceptor:
-                    (PlatformFile file, InsertFileType type) async {
-                  //filename
-                  return true;
+              ),
+              callbacks: Callbacks(
+                onInit: () {
+                  Timer(Duration(milliseconds: 100),
+                      () => labelController.setFullScreen());
+                  // descriptionController.setFullScreen();
                 },
               ),
-              otherOptions:
-                  OtherOptions(height: MediaQuery.of(context).size.height / 7),
+              otherOptions: OtherOptions(height: 200),
             ),
           ),
         ],

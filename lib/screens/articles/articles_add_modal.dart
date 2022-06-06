@@ -1,4 +1,5 @@
 // ignore_for_file: unused_import, must_be_immutable, avoid_web_libraries_in_flutter
+import 'dart:async';
 import 'dart:convert';
 import 'dart:html';
 
@@ -644,6 +645,7 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
           ),
           SizedBox(height: 10),
           Container(
+            padding: EdgeInsets.all(5),
             decoration: BoxDecoration(
               border: Border.all(color: fontColor),
               borderRadius: BorderRadius.only(
@@ -652,6 +654,7 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
             child: HtmlEditor(
               controller: descriptionController,
               htmlEditorOptions: HtmlEditorOptions(
+                autoAdjustHeight: false,
                 hint: 'Deskripsi',
                 darkMode: false,
                 initialText: "",
@@ -694,7 +697,13 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
                       descriptionText.replaceAll(RegExp('\\<p.*?\\>'), '<p>');
                   descriptionController.setText(removedDescriptionText);
                 },
+                onInit: () {
+                  Timer(Duration(milliseconds: 100),
+                      () => descriptionController.setFullScreen());
+                  // descriptionController.setFullScreen();
+                },
               ),
+              otherOptions: OtherOptions(height: 400),
             ),
           )
         ],

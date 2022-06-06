@@ -92,6 +92,7 @@ class _CategoriesEditModal extends State<CategoriesEditModal> {
     var uri = Uri.parse(url);
 
     var response = await http.get(uri);
+    print(response.body);
     if (jsonDecode(response.body)["error"] == false) {
       setState(() {
         contentLoad = false;

@@ -212,6 +212,7 @@ class _StateAsetMerekScreen extends State<AsetMerekScreen> {
             width: double.infinity,
             child: TextField(
               controller: subtitleController,
+              maxLines: 4,
               style: TextStyle(color: fontColor),
               decoration: InputDecoration(
                 fillColor: fontColor,
