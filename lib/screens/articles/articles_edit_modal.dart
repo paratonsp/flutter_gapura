@@ -65,32 +65,49 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
     var uri = Uri.parse(url);
     var response = await http.get(uri);
     if (jsonDecode(response.body)["error"] == false) {
-      setState(() {
+      setState(() async {
+        var data = await jsonDecode(response.body)["data"]["description"];
+        descriptionText = data;
         categoriesPicked =
             jsonDecode(response.body)["data"]["categories_id"].toString();
         titleController.text = jsonDecode(response.body)["data"]["title"];
         labelString = jsonDecode(response.body)["data"]["label"];
         sublabelString = jsonDecode(response.body)["data"]["sublabel"];
-        descriptionText = jsonDecode(response.body)["data"]["description"];
+
         imageUrl = jsonDecode(response.body)["data"]["imagelink"];
         _selectedDate = DateFormat("yyyy-MM-ddTHH:mm:ss.mmmZ")
             .parse(jsonDecode(response.body)["data"]["createdAt"]);
         dateController.text = DateFormat.yMMMd().format(_selectedDate);
         contentLoad = false;
-        Timer(Duration(milliseconds: 3000), () {
-          if (descriptionText.isEmpty) {
+        Timer(Duration(milliseconds: 300), () {
+          setState(() {
+            contentLoad = false;
+          });
+          Timer(Duration(milliseconds: 300), () {
             setState(() {
               textLoad = false;
             });
-          } else {
-            setState(() {
-              textLoad = false;
-            });
-          }
+          });
         });
+
+        // Timer(Duration(milliseconds: 3000), () {
+        //   setState(() {
+        //     contentLoad = false;
+        //   });
+        //   Timer(Duration(milliseconds: 100), () {
+        //     if (descriptionText.isEmpty) {
+        //       setState(() {
+        //         textLoad = false;
+        //       });
+        //     } else {
+        //       setState(() {
+        //         textLoad = false;
+        //       });
+        //     }
+        //   });
+
+        // });
       });
-      print(contentLoad);
-      print(textLoad);
       notif("Updated");
     } else {
       setState(() {});
@@ -109,8 +126,6 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
         listCategories = decodeJson;
         categoriesLoad = false;
       });
-      print(categoriesLoad);
-
       notif("Updated");
     } else {
       setState(() {});
