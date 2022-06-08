@@ -159,6 +159,7 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
   }
 
   patchData() async {
+    notif("Unggah Artikel");
     final prefs = await SharedPreferences.getInstance();
     var descriptionText = await descriptionController.getText();
     String url = dotenv.env['BASE_URL'] + "api/v1/article/update";
@@ -210,9 +211,12 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
       uri,
       headers: {"Authorization": "Bearer " + prefs.getString('token')},
     );
+    setState(() {
+      contentLoad = false;
+    });
 
     if (jsonDecode(response.body)["error"] == false) {
-      notif("Deleted");
+      notif("Terhapus");
       Navigator.pop(context);
     } else {
       setState(() {});
@@ -882,7 +886,7 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
     );
   }
 
-  void navigateLabelModal(BuildContext context, String label) async {
+  navigateLabelModal(BuildContext context, String label) async {
     var labelData = await Navigator.of(context).push(
       PageRouteBuilder(
           barrierDismissible: true,
@@ -912,7 +916,7 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
     });
   }
 
-  void navigateSubLabelModal(BuildContext context, String sublabel) async {
+  navigateSubLabelModal(BuildContext context, String sublabel) async {
     var sublabelData = await Navigator.of(context).push(
       PageRouteBuilder(
           barrierDismissible: true,

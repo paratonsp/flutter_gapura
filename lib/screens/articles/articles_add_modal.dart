@@ -99,6 +99,7 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
   }
 
   postData() async {
+    notif("Unggah Artikel");
     final prefs = await SharedPreferences.getInstance();
     var descriptionText = await descriptionController.getText();
     String url = dotenv.env['BASE_URL'] + "api/v1/article/add";
@@ -132,7 +133,6 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
 
     if (jsonDecode(response.body)["error"] == false) {
       notif("Behasil Update");
-      setState(() {});
       Navigator.pop(context);
     } else {
       notif("Gagal Update");
@@ -340,7 +340,9 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
                             ),
                             child: Text("Simpan"),
                             onPressed: () async {
-                              postData();
+                              (categoriesPicked == null)
+                                  ? notif("Isi Kategori terlebih dahulu")
+                                  : postData();
                             },
                           ),
                         ],
