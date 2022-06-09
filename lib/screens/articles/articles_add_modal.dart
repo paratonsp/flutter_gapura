@@ -677,6 +677,13 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
                   ListButtons(
                     listStyles: false,
                   ),
+                  ParagraphButtons(
+                    increaseIndent: false,
+                    decreaseIndent: false,
+                    textDirection: false,
+                    lineHeight: false,
+                    caseConverter: false,
+                  ),
                   FontButtons(
                     clearAll: false,
                     strikethrough: false,
