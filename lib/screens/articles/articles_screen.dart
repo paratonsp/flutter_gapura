@@ -190,12 +190,8 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(
-                "List Aset",
-                style: TextStyle(fontSize: 16, color: fontColor),
-              ),
               Row(
                 children: [
                   SizedBox(
@@ -227,11 +223,13 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
                     width: MediaQuery.of(context).size.width / 8,
                     child: Theme(
                       data: ThemeData.dark().copyWith(
-                        textTheme: GoogleFonts.signikaNegativeTextTheme(
-                                Theme.of(context).textTheme)
-                            .apply(bodyColor: fontColor),
-                        canvasColor: primaryColor,
-                      ),
+                          textTheme: GoogleFonts.signikaNegativeTextTheme(
+                                  Theme.of(context).textTheme)
+                              .apply(bodyColor: fontColor),
+                          canvasColor: bgColor,
+                          focusColor: bgColor,
+                          primaryColor: fontColor,
+                          hoverColor: primaryColor),
                       child: DropdownButtonFormField(
                         items: _listCategories.map((item) {
                           return DropdownMenuItem(

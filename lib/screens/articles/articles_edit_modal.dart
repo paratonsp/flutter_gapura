@@ -11,6 +11,7 @@ import 'package:gapura/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:gapura/screens/articles/articles_label_modal.dart';
 import 'package:gapura/screens/articles/articles_sublabel_modal.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
@@ -589,28 +590,38 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
           SizedBox(height: 10),
           SizedBox(
             width: double.infinity,
-            child: DropdownButtonFormField(
-              items: listCategories.map((item) {
-                return DropdownMenuItem(
-                  child: Text(item['title']),
-                  value: item['id'].toString(),
-                );
-              }).toList(),
-              onChanged: (newVal) {
-                setState(() {
-                  categoriesPicked = newVal;
-                });
-              },
-              value: categoriesPicked,
-              decoration: InputDecoration(
-                fillColor: fontColor,
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: primaryColor),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: fontColor),
-                  borderRadius: BorderRadius.circular(10),
+            child: Theme(
+              data: ThemeData(
+                  textTheme: GoogleFonts.signikaNegativeTextTheme(
+                          Theme.of(context).textTheme)
+                      .apply(bodyColor: fontColor),
+                  canvasColor: bgColor,
+                  focusColor: bgColor,
+                  primaryColor: fontColor,
+                  hoverColor: primaryColor),
+              child: DropdownButtonFormField(
+                items: listCategories.map((item) {
+                  return DropdownMenuItem(
+                    child: Text(item['title']),
+                    value: item['id'].toString(),
+                  );
+                }).toList(),
+                onChanged: (newVal) {
+                  setState(() {
+                    categoriesPicked = newVal;
+                  });
+                },
+                value: categoriesPicked,
+                decoration: InputDecoration(
+                  fillColor: fontColor,
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: primaryColor),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: fontColor),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               ),
             ),
@@ -964,12 +975,12 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
           return Theme(
             data: ThemeData.dark().copyWith(
               colorScheme: ColorScheme.dark(
-                primary: Colors.deepPurple,
-                onPrimary: Colors.white,
-                surface: Colors.blueGrey,
-                onSurface: Colors.yellow,
+                primary: primaryColor,
+                onPrimary: bgColor,
+                surface: bgColor,
+                onSurface: fontColor,
               ),
-              dialogBackgroundColor: Colors.blue[500],
+              dialogBackgroundColor: bgColor,
             ),
             child: child,
           );
