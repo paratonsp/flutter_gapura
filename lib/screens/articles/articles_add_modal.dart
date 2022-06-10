@@ -466,7 +466,7 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
                   canvasColor: bgColor,
                   focusColor: bgColor,
                   primaryColor: fontColor,
-                  hoverColor: primaryColor),
+                  hoverColor: lightGrey),
               child: DropdownButtonFormField(
                 items: listCategories.map((item) {
                   return DropdownMenuItem(

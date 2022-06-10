@@ -195,6 +195,7 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
               Row(
                 children: [
                   SizedBox(
+                    height: 50,
                     width: MediaQuery.of(context).size.width / 8,
                     child: TextField(
                       controller: searchController,
@@ -220,22 +221,23 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
                   ),
                   SizedBox(width: 10),
                   SizedBox(
+                    height: 50,
                     width: MediaQuery.of(context).size.width / 8,
                     child: Theme(
                       data: ThemeData.dark().copyWith(
-                          textTheme: GoogleFonts.signikaNegativeTextTheme(
-                                  Theme.of(context).textTheme)
-                              .apply(bodyColor: fontColor),
-                          canvasColor: bgColor,
-                          focusColor: bgColor,
-                          primaryColor: fontColor,
-                          hoverColor: primaryColor),
+                        textTheme: GoogleFonts.signikaNegativeTextTheme(
+                            Theme.of(context).textTheme),
+                        canvasColor: bgColor,
+                        hoverColor: lightGrey,
+                      ),
                       child: DropdownButtonFormField(
                         items: _listCategories.map((item) {
                           return DropdownMenuItem(
-                            child: Text(
-                              item['title'],
-                              overflow: TextOverflow.ellipsis,
+                            child: MouseRegion(
+                              child: Text(
+                                item['title'],
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                             value: item['id'].toString(),
                           );

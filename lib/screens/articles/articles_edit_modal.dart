@@ -598,7 +598,7 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
                   canvasColor: bgColor,
                   focusColor: bgColor,
                   primaryColor: fontColor,
-                  hoverColor: primaryColor),
+                  hoverColor: lightGrey),
               child: DropdownButtonFormField(
                 items: listCategories.map((item) {
                   return DropdownMenuItem(

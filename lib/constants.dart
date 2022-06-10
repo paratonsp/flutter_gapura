@@ -8,5 +8,6 @@ Color borderColor = HexColor("#101820");
 Color greyColor = HexColor("#F0F0F0");
 Color bgColor = HexColor("#FFFFFF");
 Color loginColor = HexColor("#A22855");
+Color lightGrey = HexColor("#DDDDDD");
 
 const defaultPadding = 16.0;

@@ -139,7 +139,6 @@ class _MainScreenState extends State<MainScreen> {
             children: [
               ListTile(
                 onTap: () {
-                  notif("Loading");
                   setState(() => section = Section.Landing);
                 },
                 title: Text(
@@ -149,7 +148,6 @@ class _MainScreenState extends State<MainScreen> {
               ),
               ListTile(
                 onTap: () {
-                  notif("Loading");
                   setState(() => section = Section.Widget1);
                 },
                 title: Text(
@@ -159,7 +157,6 @@ class _MainScreenState extends State<MainScreen> {
               ),
               ListTile(
                 onTap: () {
-                  notif("Loading");
                   setState(() => section = Section.Widget2);
                 },
                 title: Text(
@@ -169,7 +166,6 @@ class _MainScreenState extends State<MainScreen> {
               ),
               ListTile(
                 onTap: () {
-                  notif("Loading");
                   setState(() => section = Section.Widget3);
                 },
                 title: Text(
@@ -189,7 +185,6 @@ class _MainScreenState extends State<MainScreen> {
             children: [
               ListTile(
                 onTap: () {
-                  notif("Loading");
                   setState(() => section = Section.About);
                 },
                 title: Text(
@@ -199,7 +194,6 @@ class _MainScreenState extends State<MainScreen> {
               ),
               ListTile(
                 onTap: () {
-                  notif("Loading");
                   setState(() => section = Section.BrandAssets);
                 },
                 title: Text(
@@ -209,7 +203,6 @@ class _MainScreenState extends State<MainScreen> {
               ),
               ListTile(
                 onTap: () {
-                  notif("Loading");
                   setState(() => section = Section.ListAset);
                 },
                 title: Text(
@@ -221,7 +214,6 @@ class _MainScreenState extends State<MainScreen> {
           ),
           ListTile(
             onTap: () {
-              notif("Loading");
               setState(() => section = Section.Categories);
             },
             leading: Icon(
@@ -235,7 +227,6 @@ class _MainScreenState extends State<MainScreen> {
           ),
           ListTile(
             onTap: () {
-              notif("Loading");
               setState(() => section = Section.Articles);
             },
             leading: Icon(
@@ -249,7 +240,6 @@ class _MainScreenState extends State<MainScreen> {
           ),
           ListTile(
             onTap: () {
-              notif("Loading");
               setState(() => section = Section.Footer);
             },
             leading: Icon(
@@ -263,7 +253,6 @@ class _MainScreenState extends State<MainScreen> {
           ),
           ListTile(
             onTap: () {
-              notif("Loading");
               setState(() => section = Section.User);
             },
             leading: Icon(
