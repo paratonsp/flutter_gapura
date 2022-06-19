@@ -231,6 +231,8 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
                         hoverColor: lightGrey,
                       ),
                       child: DropdownButtonFormField(
+                        iconEnabledColor: fontColor,
+                        iconDisabledColor: fontColor,
                         items: _listCategories.map((item) {
                           return DropdownMenuItem(
                             child: MouseRegion(

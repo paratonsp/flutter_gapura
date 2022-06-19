@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:gapura/constants.dart';
 import 'package:gapura/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
