@@ -140,7 +140,7 @@ class _StateWidget1Screen extends State<Widget1Screen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        ElevatedButton(
+                        ElevatedButton.icon(
                           style: TextButton.styleFrom(
                             elevation: 0,
                             shape: RoundedRectangleBorder(
@@ -153,7 +153,8 @@ class _StateWidget1Screen extends State<Widget1Screen> {
                               vertical: defaultPadding,
                             ),
                           ),
-                          child: Text("Simpan"),
+                          icon: Icon(Icons.save),
+                          label: Text("Simpan"),
                           onPressed: () {
                             patchData();
                           },

@@ -138,7 +138,7 @@ class _StateAsetMerekScreen extends State<AsetMerekScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        ElevatedButton(
+                        ElevatedButton.icon(
                           style: TextButton.styleFrom(
                             elevation: 0,
                             shape: RoundedRectangleBorder(
@@ -151,7 +151,8 @@ class _StateAsetMerekScreen extends State<AsetMerekScreen> {
                               vertical: defaultPadding,
                             ),
                           ),
-                          child: Text("Simpan"),
+                          icon: Icon(Icons.save),
+                          label: Text("Simpan"),
                           onPressed: () {
                             patchData();
                           },

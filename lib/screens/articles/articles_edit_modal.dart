@@ -392,7 +392,7 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
-                          ElevatedButton(
+                          ElevatedButton.icon(
                             style: TextButton.styleFrom(
                               elevation: 0,
                               shape: RoundedRectangleBorder(
@@ -405,13 +405,14 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
                                 vertical: defaultPadding,
                               ),
                             ),
-                            child: Text("Batal"),
+                            icon: Icon(Icons.cancel),
+                            label: Text("Batal"),
                             onPressed: () {
                               Navigator.pop(context);
                             },
                           ),
                           SizedBox(width: 5),
-                          ElevatedButton(
+                          ElevatedButton.icon(
                             style: TextButton.styleFrom(
                               elevation: 0,
                               shape: RoundedRectangleBorder(
@@ -424,13 +425,14 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
                                 vertical: defaultPadding,
                               ),
                             ),
-                            child: Text("Hapus"),
+                            icon: Icon(Icons.remove_circle),
+                            label: Text("Hapus"),
                             onPressed: () {
                               deleteData();
                             },
                           ),
                           SizedBox(width: 5),
-                          ElevatedButton(
+                          ElevatedButton.icon(
                             style: TextButton.styleFrom(
                               elevation: 0,
                               shape: RoundedRectangleBorder(
@@ -443,7 +445,8 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
                                 vertical: defaultPadding,
                               ),
                             ),
-                            child: Text("Simpan"),
+                            icon: Icon(Icons.save),
+                            label: Text("Simpan"),
                             onPressed: () async {
                               patchData();
                             },

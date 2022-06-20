@@ -101,7 +101,7 @@ class _StateFooterScreen extends State<FooterScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  ElevatedButton(
+                  ElevatedButton.icon(
                     style: TextButton.styleFrom(
                       elevation: 0,
                       shape: RoundedRectangleBorder(
@@ -113,7 +113,8 @@ class _StateFooterScreen extends State<FooterScreen> {
                         vertical: defaultPadding,
                       ),
                     ),
-                    child: Text("Simpan"),
+                    icon: Icon(Icons.save),
+                    label: Text("Simpan"),
                     onPressed: () {
                       patchData();
                     },
