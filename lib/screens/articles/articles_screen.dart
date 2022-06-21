@@ -326,41 +326,42 @@ class _StateArticlesScreen extends State<ArticlesScreen> {
                     ),
                   ),
                 ),
-          SizedBox(
-              width: double.infinity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  (page != 1)
-                      ? IconButton(
-                          onPressed: () {
-                            setState(() {
-                              page = page - 1;
-                              _articlesList();
-                            });
-                          },
-                          icon: Icon(
-                            Icons.arrow_back_ios,
-                            color: fontColor,
-                          ),
-                        )
-                      : SizedBox(),
-                  Text(page.toString()),
-                  SizedBox(width: 5),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        page = page + 1;
-                        _articlesList();
-                      });
-                    },
-                    icon: Icon(
-                      Icons.arrow_forward_ios,
-                      color: fontColor,
-                    ),
-                  )
-                ],
-              )),
+          // SizedBox(
+          //   width: double.infinity,
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.end,
+          //     children: [
+          //       (page != 1)
+          //           ? IconButton(
+          //               onPressed: () {
+          //                 setState(() {
+          //                   page = page - 1;
+          //                   _articlesList();
+          //                 });
+          //               },
+          //               icon: Icon(
+          //                 Icons.arrow_back_ios,
+          //                 color: fontColor,
+          //               ),
+          //             )
+          //           : SizedBox(),
+          //       Text(page.toString()),
+          //       SizedBox(width: 5),
+          //       IconButton(
+          //         onPressed: () {
+          //           setState(() {
+          //             page = page + 1;
+          //             _articlesList();
+          //           });
+          //         },
+          //         icon: Icon(
+          //           Icons.arrow_forward_ios,
+          //           color: fontColor,
+          //         ),
+          //       )
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

@@ -715,8 +715,9 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
               callbacks: Callbacks(
                 onPaste: () async {
                   var descriptionText = await descriptionController.getText();
-                  String removedDescriptionText =
-                      descriptionText.replaceAll(RegExp('\\<p.*?\\>'), '<p>');
+                  String removedDescriptionText = descriptionText.replaceAll(
+                      RegExp('\\<p.*?\\>'), '<p>')
+                    ..replaceAll(RegExp('\\<span.*?\\>'), '<span>');
                   descriptionController.setText(removedDescriptionText);
                 },
                 onInit: () {

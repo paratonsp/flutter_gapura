@@ -16,6 +16,7 @@ class ListArticlesController {
     Uri parseUrl = Uri.parse(url).replace(queryParameters: {
       'page': page.toString(),
       "search": search,
+      // "limit": "10",
       "categories_id": categories_id,
       "sortBy": "id",
       "sort": "DESC",
