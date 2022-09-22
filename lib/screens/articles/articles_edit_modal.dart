@@ -852,10 +852,13 @@ class _ArticlesEditModal extends State<ArticlesEditModal> {
                       onPaste: () async {
                         var descriptionText =
                             await descriptionController.getText();
-                        String removedDescriptionText = descriptionText
-                            .replaceAll(RegExp('\\<p.*?\\>'), '<p>')
-                            .replaceAll(RegExp('\\<span.*?\\>'), '<span>');
-                        descriptionController.setText(removedDescriptionText);
+                        String removedStyle = descriptionText.replaceAll(
+                            RegExp(r'style="[^\"]*"'), '');
+                        String removedId =
+                            removedStyle.replaceAll(RegExp(r'id="[^\"]*"'), '');
+                        String removedClass =
+                            removedId.replaceAll(RegExp(r'class="[^\"]*"'), '');
+                        descriptionController.setText(removedClass);
                       },
                       onInit: () {
                         Timer(Duration(milliseconds: 100),

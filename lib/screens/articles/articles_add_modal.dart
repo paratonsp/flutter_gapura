@@ -24,6 +24,7 @@ import 'package:gapura/screens/components/recent_files.dart';
 import 'package:gapura/screens/components/storage_details.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:html/parser.dart';
 
 class ArticlesAddModal extends StatefulWidget {
   @override
@@ -715,10 +716,13 @@ class _ArticlesAddModal extends State<ArticlesAddModal> {
               callbacks: Callbacks(
                 onPaste: () async {
                   var descriptionText = await descriptionController.getText();
-                  String removedDescriptionText = descriptionText.replaceAll(
-                      RegExp('\\<p.*?\\>'), '<p>')
-                    ..replaceAll(RegExp('\\<span.*?\\>'), '<span>');
-                  descriptionController.setText(removedDescriptionText);
+                  String removedStyle =
+                      descriptionText.replaceAll(RegExp(r'style="[^\"]*"'), '');
+                  String removedId =
+                      removedStyle.replaceAll(RegExp(r'id="[^\"]*"'), '');
+                  String removedClass =
+                      removedId.replaceAll(RegExp(r'class="[^\"]*"'), '');
+                  descriptionController.setText(removedClass);
                 },
                 onInit: () {
                   Timer(Duration(milliseconds: 100),
